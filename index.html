@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Presupuestador V52 (Ultra Limpio)</title>
+    <title>Presupuestador V53 (Con Imagen JPG)</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     
     <style>
         :root {
@@ -42,7 +43,6 @@
         .search-btn:active { background: #f5f5f5; }
         .btn-clear { background: none; border: none; font-size: 18px; color: #aaa; padding: 0 10px; cursor: pointer; display: none; height: 40px; line-height: 40px; }
         
-        /* Carga Minimalista */
         .upload-section { background: var(--white); padding: 5px 15px; text-align: center; border-bottom: 1px solid #e0e0e0; min-height: 20px; display: block; }
         .file-custom-btn { background-color: #E3F2FD; border: 2px dashed var(--primary-blue); color: var(--primary-blue); padding: 12px; border-radius: 8px; cursor: pointer; display: block; font-weight: bold; width: 100%; box-sizing: border-box; font-size: 14px; margin-bottom: 5px; }
         
@@ -89,42 +89,56 @@
         .chip-btn { background: #fff; border: 1px solid #90CAF9; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; color: #1976D2; cursor: pointer; transition: 0.2s; }
         .chip-btn:active { background: var(--primary-blue); color: #fff; transform: scale(0.95); }
         .chip-btn.active-chip { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); }
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-        .btn-pdf { width: 100%; background: var(--accent-red); color: var(--white); padding: 14px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3); }
-        .btn-whatsapp { width: 100%; background: var(--whatsapp-green); color: var(--white); padding: 14px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 6px rgba(37, 211, 102, 0.3); }
+        
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .btn-pdf { background: var(--accent-red); color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3); }
+        .btn-img { background: #FF9800; color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(255, 152, 0, 0.3); }
+        .btn-whatsapp { background: var(--whatsapp-green); color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(37, 211, 102, 0.3); }
         
         #btnScrollTop { position: fixed; bottom: 80px; right: 20px; width: 50px; height: 50px; background-color: var(--primary-blue); color: white; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; display: none; z-index: 1500; align-items: center; justify-content: center; opacity: 0.9; }
         #toast { visibility: hidden; min-width: 200px; background-color: #263238; color: #fff; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 3000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; opacity: 0; transition: opacity 0.2s, bottom 0.2s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 90px; }
 
-        /* NAVBAR & BADGE */
         .nav { position: fixed; bottom: 0; width: 100%; height: 60px; background: var(--white); border-top: 1px solid #cfd8dc; display: flex; z-index: 2000; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #90a4ae; cursor: pointer; border: none; background: transparent; transition: 0.2s; position: relative; }
         .nav-item.active { color: var(--primary-blue); font-weight: bold; background-color: #f5f9fc; }
         .nav-icon { font-size: 24px; margin-bottom: 2px; }
         
-        .nav-badge {
-            position: absolute;
-            top: 5px;
-            right: calc(50% - 15px); 
-            background-color: var(--accent-red);
-            color: white;
-            border-radius: 50%;
-            padding: 2px 5px;
-            font-size: 10px;
-            font-weight: bold;
-            min-width: 14px;
-            text-align: center;
-            display: none; 
-            z-index: 10;
-        }
+        .nav-badge { position: absolute; top: 5px; right: calc(50% - 15px); background-color: var(--accent-red); color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold; min-width: 14px; text-align: center; display: none; z-index: 10; }
 
+        /* MODAL IMAGEN */
+        #imgModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 5000; align-items: center; justify-content: center; flex-direction: column; }
+        #imgPreview { max-width: 90%; max-height: 80%; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .modal-controls { margin-top: 20px; display: flex; gap: 10px; }
+        .btn-modal { padding: 10px 20px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; font-size: 16px; }
+
+        /* AREA DE CAPTURA OCULTA */
+        #captureArea { position: absolute; left: -9999px; top: 0; width: 550px; background: white; padding: 20px; font-family: sans-serif; border: 1px solid #ccc; }
+        .cap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #D32F2F; padding-bottom: 15px; margin-bottom: 15px; }
+        .cap-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        .cap-table th { background: #0D47A1; color: white; padding: 8px; font-size: 12px; text-align: left; }
+        .cap-table td { border-bottom: 1px solid #eee; padding: 8px; font-size: 12px; color: #333; }
+        .cap-total { text-align: right; margin-top: 20px; }
+        
         #customItemCard .card { border: 2px solid var(--accent-red); border-left: 4px solid var(--accent-red); }
         #customItemCard .client-input { border: 1px solid #cfd8dc; padding: 8px; box-sizing: border-box; }
     </style>
 </head>
 <body>
     <button id="btnScrollTop" onclick="scrollToTop()">⬆</button>
+
+    <div id="captureArea">
+        </div>
+
+    <div id="imgModal">
+        <img id="imgPreview" src="" alt="Recibo">
+        <div style="color:white; margin-top:10px; font-size:14px; text-align:center;">
+            👆 Mantén presionado para Copiar/Compartir<br>y pégalo en WhatsApp.
+        </div>
+        <div class="modal-controls">
+            <button class="btn-modal" onclick="cerrarModalImg()" style="background:#ff5252; color:white;">Cerrar</button>
+        </div>
+    </div>
 
     <div id="viewCatalog">
         <header>
@@ -133,7 +147,6 @@
                 <img src="Logo.png" alt="Logo 1" class="brand-logo" id="imgLogo1" onerror="this.style.display='none'">
                 <img src="logo_multicolor.png" alt="Logo 2" class="brand-logo" id="imgLogo2" onerror="this.style.display='none'">
             </div>
-            
             <div id="logoConfigPanel">
                 <p style="font-size:14px; font-weight:bold; margin-bottom:10px;">Configurar Logos</p>
                 <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100; margin-bottom:8px;">
@@ -145,7 +158,6 @@
                 <button onclick="borrarLogosLocales()" style="margin-top:10px; padding:8px 15px; border:none; background:#ffebee; color:#D32F2F; border-radius:4px; font-weight:bold;">🗑️ Borrar Logos</button>
                 <br><br><button onclick="toggleLogoPanel()" style="padding:5px 15px; border:1px solid #999; background:#eee; border-radius:4px;">Cerrar</button>
             </div>
-
             <div class="header-content">
                 <h1>Catálogo Online</h1>
                 <div class="search-container">
@@ -232,8 +244,10 @@
                 </div>
                 <span id="txtTotalFinal" class="efectivo-monto">$0.00</span>
             </div>
+            
             <div class="action-grid">
                 <button class="btn-pdf" onclick="generarPDF()">📄 PDF</button>
+                <button class="btn-img" onclick="generarImagen()">📸 Imagen</button>
                 <button class="btn-whatsapp" onclick="enviarWhatsapp()">📲 WhatsApp</button>
             </div>
             <button onclick="borrarTodo()" style="width:100%; margin-top:5px; border:none; background:none; color: var(--accent-red); font-weight:bold; padding:10px;">🗑️ Borrar Todo</button>
@@ -244,20 +258,20 @@
     
     <nav class="nav">
         <button class="nav-item active" onclick="cambiarVista('catalog')" id="navCat">
-            <span class="nav-icon">📦</span>
-            Catálogo
+            <span class="nav-icon">📦</span>Catálogo
         </button>
         <button class="nav-item" onclick="cambiarVista('budget')" id="navBud">
             <span class="nav-icon">🛒</span>
-            <span id="cartBadge" class="nav-badge">0</span> Pedido
+            <span id="cartBadge" class="nav-badge">0</span>
+            Pedido
         </button>
     </nav>
 
     <script>
         const CLAVE_AUTORIZACION = 'chpmc'; const MAX_DISC_SIN_CLAVE = 15;
         const ARCHIVO_LISTA_AUTOMATICA = 'Lista CHPMC.xlsx'; 
-        const LOCAL_STORAGE_KEY = 'datosAppV52';
-        const LOCAL_INVENTARIO_KEY = 'inventarioV52';
+        const LOCAL_STORAGE_KEY = 'datosAppV53';
+        const LOCAL_INVENTARIO_KEY = 'inventarioV53';
         const LOCAL_LOGO1_KEY = 'logo1_v44';
         const LOCAL_LOGO2_KEY = 'logo2_v44';
         
@@ -267,25 +281,16 @@
             cargarDatosLocales(); 
             recuperarLogos();
             if (inventario.length === 0) intentarCargaNube();
-            else {
-                // Si ya hay datos en memoria, OCULTAMOS la barra de carga directamente
-                document.getElementById('uploadSection').style.display = 'none';
-            }
+            else document.getElementById('uploadSection').style.display = 'none';
         };
 
         function intentarCargaNube() {
             const lblFile = document.getElementById('lblFile');
             const manualInput = document.getElementById('lblManualInput');
-            
-            // Estado Inicial: Texto Conectando, input manual oculto
-            lblFile.innerText = "⏳ Conectando..."; 
-            manualInput.style.display = 'none';
+            lblFile.innerText = "⏳ Conectando..."; manualInput.style.display = 'none';
 
             fetch(ARCHIVO_LISTA_AUTOMATICA + '?v=' + new Date().getTime())
-                .then(response => {
-                    if (!response.ok) throw new Error("No encontrada");
-                    return response.arrayBuffer();
-                })
+                .then(response => { if (!response.ok) throw new Error("No encontrada"); return response.arrayBuffer(); })
                 .then(data => {
                     const workbook = XLSX.read(new Uint8Array(data), {type: 'array'});
                     const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: 1});
@@ -293,10 +298,8 @@
                 })
                 .catch(error => {
                     console.log(error);
-                    // ⚠️ SOLO AQUI (SI FALLA) MOSTRAMOS EL BOTÓN MANUAL
-                    lblFile.innerText = ""; // Borramos el texto "Conectando"
-                    manualInput.style.display = 'block'; // Aparece el botón manual
-                    // Aseguramos que el contenedor sea visible
+                    lblFile.innerText = ""; 
+                    manualInput.style.display = 'block'; 
                     document.getElementById('uploadSection').style.display = 'block';
                 });
         }
@@ -326,14 +329,10 @@
             }
             inventario = lista;
             try { localStorage.setItem(LOCAL_INVENTARIO_KEY, JSON.stringify(inventario)); } catch(e){}
-            
-            // 💡 V52: SI CARGA BIEN, OCULTAMOS TODO EL BLOQUE DE CARGA
             document.getElementById('uploadSection').style.display = 'none';
-            
             resultadosBusqueda = inventario; paginaActual = 1; renderizarPagina();
         }
 
-        // --- FUNCIONES LOGOS ---
         function toggleLogoPanel() { const p = document.getElementById('logoConfigPanel'); p.style.display = (p.style.display==='block') ? 'none' : 'block'; }
         function borrarLogosLocales() { localStorage.removeItem(LOCAL_LOGO1_KEY); localStorage.removeItem(LOCAL_LOGO2_KEY); alert("Logos borrados."); location.reload(); }
         function cargarLogoLocal(input, keyName) {
@@ -453,7 +452,6 @@
             const chips = document.querySelectorAll('.chip-btn');
             chips.forEach(b => { if(parseInt(b.innerText)===disc) b.classList.add('active-chip'); else b.classList.remove('active-chip'); });
 
-            // 💡 V52: ACTUALIZACIÓN DEL BADGE
             const badge = document.getElementById('cartBadge');
             badge.innerText = carrito.length;
             badge.style.display = carrito.length > 0 ? 'block' : 'none';
@@ -501,6 +499,7 @@
             window.open(`https://wa.me/?text=${encodeURIComponent(m)}`); borrarTodo();
         }
 
+        // --- PDF y CAPTURA DE IMAGEN ---
         function getBase64FromImageElement(id) {
             const img = document.getElementById(id); if(!img || !img.complete || img.naturalWidth===0) return null;
             try { const c = document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); return c.toDataURL("image/png"); } catch(e){return null;}
@@ -535,6 +534,67 @@
             y+=20; doc.setFontSize(10); doc.setFont(undefined,'italic'); doc.text("Condiciones:", 14, y); doc.text("- Entrega en 24hs", 14, y+6); doc.text("- Presupuesto válido por 7 días", 14, y+12);
             
             doc.save(`Presupuesto_${c.replace(/\s+/g,'_')}.pdf`);
+        }
+
+        // GENERADOR DE IMAGEN (HTML2CANVAS)
+        function generarImagen() {
+            if(carrito.length === 0) return alert("Pedido vacío");
+            const captureDiv = document.getElementById('captureArea');
+            const cliente = document.getElementById('inputCliente').value.trim() || "Consumidor Final";
+            const fecha = new Date().toLocaleDateString('es-AR');
+            const l1 = getBase64FromImageElement('imgLogo1');
+            const l2 = getBase64FromImageElement('imgLogo2');
+
+            // 1. Armar el HTML oculto
+            let html = `
+                <div class="cap-header">
+                    <div>${l1 ? `<img src="${l1}" style="height:60px;">` : ''}</div>
+                    <div style="text-align:right;">${l2 ? `<img src="${l2}" style="height:60px;">` : ''}</div>
+                </div>
+                <h2 style="text-align:center; margin:0 0 10px 0; color:#0D47A1;">PRESUPUESTO</h2>
+                <div style="font-size:12px; margin-bottom:15px; color:#555;">
+                    <strong>Fecha:</strong> ${fecha}<br>
+                    <strong>Cliente:</strong> ${cliente}
+                </div>
+                <table class="cap-table">
+                    <thead><tr><th>Cant</th><th>Detalle</th><th style="text-align:right;">Total</th></tr></thead>
+                    <tbody>`;
+            
+            let subtotal = 0;
+            carrito.forEach(p => {
+                subtotal += p.precio * p.cant;
+                html += `<tr>
+                    <td>${p.cant}</td>
+                    <td><div style="font-weight:bold;">${p.desc}</div><div style="font-size:10px; color:#666;">Cód: ${p.cod}</div></td>
+                    <td style="text-align:right;">$${formatMoney(p.precio * p.cant)}</td>
+                </tr>`;
+            });
+            
+            const desc = parseFloat(document.getElementById('inputDescuento').value) || 0;
+            const total = redondear500(subtotal * (1 - desc/100));
+
+            html += `</tbody></table>
+                <div class="cap-total">
+                    <div style="font-size:12px;">Lista/Tarjeta: $${formatMoney(subtotal)}</div>
+                    <div style="font-size:20px; font-weight:bold; color:#D32F2F; margin-top:5px;">Efectivo: $${formatMoney(total)}</div>
+                </div>
+                <div style="margin-top:20px; font-size:10px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:10px;">
+                    Chapamovil: Rivadavia 1299 - Alem 603 (LB)<br>
+                    Multicolor: Rivadavia 1270 - Bolivia (N) 158 (LB)
+                </div>`;
+            
+            captureDiv.innerHTML = html;
+
+            // 2. Generar foto
+            html2canvas(captureDiv, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL("image/jpeg", 0.9);
+                document.getElementById('imgPreview').src = imgData;
+                document.getElementById('imgModal').style.display = 'flex';
+            });
+        }
+
+        function cerrarModalImg() {
+            document.getElementById('imgModal').style.display = 'none';
         }
     </script>
 </body>
