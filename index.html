@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Presupuestador V53 (Con Imagen JPG)</title>
+    <title>Presupuestador V54 (Compartir Limpio)</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -106,11 +106,13 @@
         
         .nav-badge { position: absolute; top: 5px; right: calc(50% - 15px); background-color: var(--accent-red); color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold; min-width: 14px; text-align: center; display: none; z-index: 10; }
 
-        /* MODAL IMAGEN */
-        #imgModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 5000; align-items: center; justify-content: center; flex-direction: column; }
-        #imgPreview { max-width: 90%; max-height: 80%; border-radius: 8px; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .modal-controls { margin-top: 20px; display: flex; gap: 10px; }
-        .btn-modal { padding: 10px 20px; border-radius: 5px; border: none; font-weight: bold; cursor: pointer; font-size: 16px; }
+        /* MODAL IMAGEN MEJORADO */
+        #imgModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; align-items: center; justify-content: center; flex-direction: column; padding: 20px; box-sizing: border-box; }
+        #imgPreview { max-width: 95%; max-height: 70%; border-radius: 8px; box-shadow: 0 0 20px rgba(255,255,255,0.1); margin-bottom: 15px; }
+        .modal-controls { display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center; }
+        
+        .btn-modal-share { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; background: #25D366; color: white; display: flex; align-items: center; justify-content: center; gap: 5px; }
+        .btn-modal-close { flex: 0.5; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; background: #ff5252; color: white; }
 
         /* AREA DE CAPTURA OCULTA */
         #captureArea { position: absolute; left: -9999px; top: 0; width: 550px; background: white; padding: 20px; font-family: sans-serif; border: 1px solid #ccc; }
@@ -127,16 +129,22 @@
 <body>
     <button id="btnScrollTop" onclick="scrollToTop()">⬆</button>
 
-    <div id="captureArea">
-        </div>
+    <div id="captureArea"></div>
 
     <div id="imgModal">
         <img id="imgPreview" src="" alt="Recibo">
-        <div style="color:white; margin-top:10px; font-size:14px; text-align:center;">
-            👆 Mantén presionado para Copiar/Compartir<br>y pégalo en WhatsApp.
-        </div>
+        
         <div class="modal-controls">
-            <button class="btn-modal" onclick="cerrarModalImg()" style="background:#ff5252; color:white;">Cerrar</button>
+            <button class="btn-modal-share" onclick="compartirNativo()">
+                📤 Enviar a WhatsApp
+            </button>
+            <button class="btn-modal-close" onclick="cerrarModalImg()">
+                Cerrar
+            </button>
+        </div>
+        
+        <div style="color:#aaa; margin-top:15px; font-size:11px; text-align:center;">
+            (Si no funciona el botón, mantén presionado la imagen)
         </div>
     </div>
 
@@ -147,6 +155,7 @@
                 <img src="Logo.png" alt="Logo 1" class="brand-logo" id="imgLogo1" onerror="this.style.display='none'">
                 <img src="logo_multicolor.png" alt="Logo 2" class="brand-logo" id="imgLogo2" onerror="this.style.display='none'">
             </div>
+            
             <div id="logoConfigPanel">
                 <p style="font-size:14px; font-weight:bold; margin-bottom:10px;">Configurar Logos</p>
                 <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100; margin-bottom:8px;">
@@ -158,6 +167,7 @@
                 <button onclick="borrarLogosLocales()" style="margin-top:10px; padding:8px 15px; border:none; background:#ffebee; color:#D32F2F; border-radius:4px; font-weight:bold;">🗑️ Borrar Logos</button>
                 <br><br><button onclick="toggleLogoPanel()" style="padding:5px 15px; border:1px solid #999; background:#eee; border-radius:4px;">Cerrar</button>
             </div>
+
             <div class="header-content">
                 <h1>Catálogo Online</h1>
                 <div class="search-container">
@@ -248,7 +258,7 @@
             <div class="action-grid">
                 <button class="btn-pdf" onclick="generarPDF()">📄 PDF</button>
                 <button class="btn-img" onclick="generarImagen()">📸 Imagen</button>
-                <button class="btn-whatsapp" onclick="enviarWhatsapp()">📲 WhatsApp</button>
+                <button class="btn-whatsapp" onclick="enviarWhatsapp()">📲 Texto</button>
             </div>
             <button onclick="borrarTodo()" style="width:100%; margin-top:5px; border:none; background:none; color: var(--accent-red); font-weight:bold; padding:10px;">🗑️ Borrar Todo</button>
         </div>
@@ -270,8 +280,8 @@
     <script>
         const CLAVE_AUTORIZACION = 'chpmc'; const MAX_DISC_SIN_CLAVE = 15;
         const ARCHIVO_LISTA_AUTOMATICA = 'Lista CHPMC.xlsx'; 
-        const LOCAL_STORAGE_KEY = 'datosAppV53';
-        const LOCAL_INVENTARIO_KEY = 'inventarioV53';
+        const LOCAL_STORAGE_KEY = 'datosAppV54';
+        const LOCAL_INVENTARIO_KEY = 'inventarioV54';
         const LOCAL_LOGO1_KEY = 'logo1_v44';
         const LOCAL_LOGO2_KEY = 'logo2_v44';
         
@@ -536,7 +546,6 @@
             doc.save(`Presupuesto_${c.replace(/\s+/g,'_')}.pdf`);
         }
 
-        // GENERADOR DE IMAGEN (HTML2CANVAS)
         function generarImagen() {
             if(carrito.length === 0) return alert("Pedido vacío");
             const captureDiv = document.getElementById('captureArea');
@@ -545,7 +554,6 @@
             const l1 = getBase64FromImageElement('imgLogo1');
             const l2 = getBase64FromImageElement('imgLogo2');
 
-            // 1. Armar el HTML oculto
             let html = `
                 <div class="cap-header">
                     <div>${l1 ? `<img src="${l1}" style="height:60px;">` : ''}</div>
@@ -585,12 +593,36 @@
             
             captureDiv.innerHTML = html;
 
-            // 2. Generar foto
             html2canvas(captureDiv, { scale: 2 }).then(canvas => {
                 const imgData = canvas.toDataURL("image/jpeg", 0.9);
                 document.getElementById('imgPreview').src = imgData;
                 document.getElementById('imgModal').style.display = 'flex';
             });
+        }
+
+        async function compartirNativo() {
+            const imgElement = document.getElementById('imgPreview');
+            const base64URL = imgElement.src;
+
+            // 1. Convertir Base64 a Archivo (Blob)
+            const res = await fetch(base64URL);
+            const blob = await res.blob();
+            const file = new File([blob], "presupuesto.jpg", { type: "image/jpeg" });
+
+            // 2. Usar Web Share API
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: 'Presupuesto',
+                        text: '' // Texto vacío para evitar links
+                    });
+                } catch (err) {
+                    console.log("Cancelado o Error al compartir", err);
+                }
+            } else {
+                alert("Tu navegador no soporta envío directo de imagen. Por favor, mantén presionada la foto y selecciona 'Copiar' o 'Compartir imagen'.");
+            }
         }
 
         function cerrarModalImg() {
