@@ -3,38 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Presupuestador Web V50</title>
+    <title>Presupuestador V51 (UI Limpia)</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
     
     <style>
-        :root { --primary-blue: #0D47A1; --accent-red: #D32F2F; --bg-light: #F5F7FA; --white: #FFFFFF; --text-dark: #2c3e50; --whatsapp-green: #25D366; --price-cash-color: #2E7D32; }
+        :root {
+            --primary-blue: #0D47A1; 
+            --accent-red: #D32F2F;   
+            --bg-light: #F5F7FA;     
+            --white: #FFFFFF;
+            --text-dark: #2c3e50;
+            --whatsapp-green: #25D366;
+            --price-cash-color: #2E7D32; 
+        }
+
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding-bottom: 120px; background-color: var(--bg-light); color: var(--text-dark); scroll-behavior: smooth; }
+        
         header { background-color: var(--primary-blue); color: var(--white); padding: 0 0 15px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .logos-bar { background-color: var(--white); padding: 20px; display: flex; justify-content: center; align-items: center; gap: 20px; border-bottom: 4px solid var(--accent-red); margin-bottom: 10px; }
+        
+        .logos-bar { 
+            background-color: var(--white); padding: 20px; display: flex; justify-content: center; align-items: center; gap: 20px; border-bottom: 4px solid var(--accent-red); margin-bottom: 10px; position: relative; 
+        }
         .brand-logo { height: 90px; width: auto; max-width: 45vw; object-fit: contain; display: block; }
-        @media (max-width: 600px) { .logos-bar { padding: 10px 5px; gap: 10px; } .brand-logo { height: 50px; max-width: 40vw; } }
+        @media (max-width: 600px) { .logos-bar { padding: 10px 5px; gap: 10px; } .brand-logo { height: 50px; max-width: 40vw; } .config-btn { font-size: 16px; top: 2px; right: 2px; } }
+
+        .config-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; font-size: 20px; cursor: pointer; opacity: 0.5; }
+        #logoConfigPanel { display: none; background: #fff; padding: 15px; border-bottom: 1px solid #ccc; text-align: center; }
+        
         .header-content { padding: 0 15px; }
         h1 { margin: 0 0 10px 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; text-align: center; }
+        
         .search-container { display: flex; background: var(--white); border-radius: 8px; padding: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); align-items: center; }
         .search-input { border: none; flex-grow: 1; padding: 10px; font-size: 16px; outline: none; border-radius: 8px; color: #333; }
-        .search-btn { background: var(--white); border: 1px solid #cfd8dc; border-radius: 6px; padding: 0 10px; font-size: 18px; cursor: pointer; color: var(--accent-red); height: 40px; display: flex; align-items: center; justify-content: center; }
+        .search-btn { background: var(--white); border: 1px solid #cfd8dc; border-radius: 6px; padding: 0 10px; font-size: 18px; cursor: pointer; color: var(--accent-red); height: 40px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .search-btn:active { background: #f5f5f5; }
         .btn-clear { background: none; border: none; font-size: 18px; color: #aaa; padding: 0 10px; cursor: pointer; display: none; height: 40px; line-height: 40px; }
-        .upload-section { background: var(--white); padding: 15px; text-align: center; border-bottom: 1px solid #e0e0e0; font-size: 12px; color: #666; }
+        
+        /* Carga Minimalista */
+        .upload-section { background: var(--white); padding: 5px 15px; text-align: center; border-bottom: 1px solid #e0e0e0; min-height: 20px; }
         .file-custom-btn { background-color: #E3F2FD; border: 2px dashed var(--primary-blue); color: var(--primary-blue); padding: 12px; border-radius: 8px; cursor: pointer; display: block; font-weight: bold; width: 100%; box-sizing: border-box; font-size: 14px; margin-bottom: 5px; }
+        
         .results-info { padding: 10px 15px; font-size: 13px; color: #555; font-weight: 600; display: flex; justify-content: space-between; align-items: center; background: #e8eaf6; border-bottom: 1px solid #d0d0d0; }
         .container { max-width: 800px; margin: 0 auto; padding: 10px; }
         .card { background: var(--white); padding: 16px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; border-left: 4px solid transparent; }
         .badge-code { font-size: 11px; background: #eceff1; color: #546e7a; padding: 3px 6px; border-radius: 4px; display: inline-block; margin-bottom: 6px; font-weight: bold; }
         .prod-desc { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; padding-right: 10px; color: #2c3e50; }
+        
         .dual-price-container { display: flex; align-items: center; gap: 15px; margin: 8px 0; background: #f9f9f9; padding: 8px; border-radius: 6px; }
         .price-box { display: flex; flex-direction: column; }
         .price-label { font-size: 10px; text-transform: uppercase; color: #777; font-weight: bold; }
         .price-val-list { font-size: 18px; font-weight: 800; color: var(--accent-red); }
         .price-val-cash { font-size: 18px; font-weight: 800; color: var(--price-cash-color); }
         .divider { width: 1px; height: 30px; background: #ddd; }
+
         .action-row { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; border-top: 1px solid #f0f0f0; padding-top: 10px; }
         .add-controls { display: flex; align-items: center; gap: 8px; margin-left: auto; }
         .qty-catalog { width: 35px; padding: 8px; text-align: center; border: 1px solid #cfd8dc; border-radius: 6px; font-size: 16px; font-weight: bold; color: var(--primary-blue); }
@@ -43,10 +67,12 @@
         .qty-btn-mini { padding: 8px; width: 38px; height: 38px; background: #E3F2FD; color: var(--primary-blue); }
         .btn-add { background-color: var(--primary-blue); color: var(--white); border: none; padding: 10px 22px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 13px; letter-spacing: 0.5px; box-shadow: 0 2px 5px rgba(13, 71, 161, 0.3); }
         .btn-add:active { transform: scale(0.98); }
+        
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px 0; }
         .page-btn { background: var(--white); border: 1px solid #cfd8dc; padding: 8px 16px; border-radius: 6px; font-weight: bold; color: var(--primary-blue); cursor: pointer; }
         .page-btn:disabled { background: #f5f5f5; color: #b0bec5; cursor: not-allowed; border-color: #eee; }
         .page-info { font-size: 14px; color: #555; }
+
         .client-input { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 16px; box-sizing: border-box; outline-color: var(--primary-blue); }
         .budget-card { border-left: 5px solid var(--primary-blue); }
         .controls-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 10px; }
@@ -66,13 +92,34 @@
         .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
         .btn-pdf { width: 100%; background: var(--accent-red); color: var(--white); padding: 14px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3); }
         .btn-whatsapp { width: 100%; background: var(--whatsapp-green); color: var(--white); padding: 14px; border: none; border-radius: 10px; font-size: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 4px 6px rgba(37, 211, 102, 0.3); }
+        
         #btnScrollTop { position: fixed; bottom: 80px; right: 20px; width: 50px; height: 50px; background-color: var(--primary-blue); color: white; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; display: none; z-index: 1500; align-items: center; justify-content: center; opacity: 0.9; }
         #toast { visibility: hidden; min-width: 200px; background-color: #263238; color: #fff; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 3000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; opacity: 0; transition: opacity 0.2s, bottom 0.2s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 90px; }
+
+        /* 💡 NAVBAR & BADGE */
         .nav { position: fixed; bottom: 0; width: 100%; height: 60px; background: var(--white); border-top: 1px solid #cfd8dc; display: flex; z-index: 2000; }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #90a4ae; cursor: pointer; border: none; background: transparent; transition: 0.2s; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #90a4ae; cursor: pointer; border: none; background: transparent; transition: 0.2s; position: relative; }
         .nav-item.active { color: var(--primary-blue); font-weight: bold; background-color: #f5f9fc; }
         .nav-icon { font-size: 24px; margin-bottom: 2px; }
+        
+        /* GLOBO ROJO NOTIFICACIÓN */
+        .nav-badge {
+            position: absolute;
+            top: 5px;
+            right: calc(50% - 15px); /* Posicionado sobre el icono */
+            background-color: var(--accent-red);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 5px;
+            font-size: 10px;
+            font-weight: bold;
+            min-width: 14px;
+            text-align: center;
+            display: none; /* Oculto si es 0 */
+            z-index: 10;
+        }
+
         #customItemCard .card { border: 2px solid var(--accent-red); border-left: 4px solid var(--accent-red); }
         #customItemCard .client-input { border: 1px solid #cfd8dc; padding: 8px; box-sizing: border-box; }
     </style>
@@ -83,9 +130,23 @@
     <div id="viewCatalog">
         <header>
             <div class="logos-bar">
+                <button class="config-btn" onclick="toggleLogoPanel()">⚙️</button>
                 <img src="Logo.png" alt="Logo 1" class="brand-logo" id="imgLogo1" onerror="this.style.display='none'">
                 <img src="logo_multicolor.png" alt="Logo 2" class="brand-logo" id="imgLogo2" onerror="this.style.display='none'">
             </div>
+            
+            <div id="logoConfigPanel">
+                <p style="font-size:14px; font-weight:bold; margin-bottom:10px;">Configurar Logos</p>
+                <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100; margin-bottom:8px;">
+                    🖼️ Logo Izq (Logo.png) <input type="file" accept="image/*" style="display:none" onchange="cargarLogoLocal(this, 'logo1')">
+                </label>
+                <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100;">
+                    🖼️ Logo Der (Multicolor) <input type="file" accept="image/*" style="display:none" onchange="cargarLogoLocal(this, 'logo2')">
+                </label>
+                <button onclick="borrarLogosLocales()" style="margin-top:10px; padding:8px 15px; border:none; background:#ffebee; color:#D32F2F; border-radius:4px; font-weight:bold;">🗑️ Borrar Logos</button>
+                <br><br><button onclick="toggleLogoPanel()" style="padding:5px 15px; border:1px solid #999; background:#eee; border-radius:4px;">Cerrar</button>
+            </div>
+
             <div class="header-content">
                 <h1>Catálogo Online</h1>
                 <div class="search-container">
@@ -97,8 +158,8 @@
         </header>
 
         <div class="upload-section">
-            <span id="lblFile">⏳ Conectando con el servidor...</span>
-            <label for="fileInput" style="margin-top:5px; display:block; cursor:pointer; text-decoration:underline;">(Cargar manual si falla)</label>
+            <span id="lblFile" style="font-weight:bold; color:#0D47A1;">⏳ Conectando...</span>
+            <label for="fileInput" style="margin-top:5px; display:block; cursor:pointer; text-decoration:underline; font-size:11px;">(Cargar Excel manual si falla)</label>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display:none;">
         </div>
         
@@ -181,31 +242,39 @@
     </div>
 
     <div id="toast">Mensaje</div>
+    
     <nav class="nav">
-        <button class="nav-item active" onclick="cambiarVista('catalog')" id="navCat"><span class="nav-icon">📦</span>Catálogo</button>
-        <button class="nav-item" onclick="cambiarVista('budget')" id="navBud"><span class="nav-icon">🛒</span>Ver Pedido (<span id="cartCount">0</span>)</button>
+        <button class="nav-item active" onclick="cambiarVista('catalog')" id="navCat">
+            <span class="nav-icon">📦</span>
+            Catálogo
+        </button>
+        <button class="nav-item" onclick="cambiarVista('budget')" id="navBud">
+            <span class="nav-icon">🛒</span>
+            <span id="cartBadge" class="nav-badge">0</span> Pedido </button>
     </nav>
 
     <script>
         const CLAVE_AUTORIZACION = 'chpmc'; const MAX_DISC_SIN_CLAVE = 15;
-        // Nombre exacto del archivo que subirás a GitHub
         const ARCHIVO_LISTA_AUTOMATICA = 'Lista CHPMC.xlsx'; 
-        const LOCAL_STORAGE_KEY = 'datosAppV50';
+        const LOCAL_STORAGE_KEY = 'datosAppV51';
+        const LOCAL_INVENTARIO_KEY = 'inventarioV51';
+        const LOCAL_LOGO1_KEY = 'logo1_v44';
+        const LOCAL_LOGO2_KEY = 'logo2_v44';
         
         let descuentoAutorizado = false; let inventario = []; let carrito = []; let resultadosBusqueda = []; let paginaActual = 1; const itemsPorPagina = 20;
 
         window.onload = function() { 
             cargarDatosLocales(); 
-            // Intentar cargar siempre de la nube
-            intentarCargaNube();
+            recuperarLogos();
+            // Intenta cargar pero no muestra mensaje si sale bien
+            if (inventario.length === 0) intentarCargaNube();
+            else document.getElementById('lblFile').innerText = ""; // Limpia si ya hay datos
         };
 
-        // --- CARGA DESDE LA NUBE (GITHUB) ---
         function intentarCargaNube() {
             const lblFile = document.getElementById('lblFile');
-            lblFile.innerText = `⏳ Buscando lista de precios en el servidor...`;
+            lblFile.innerText = "⏳ Conectando..."; // Mensaje temporal
             
-            // Agregamos ?v=TIMESTAMP para evitar que el celular guarde una versión vieja en caché
             fetch(ARCHIVO_LISTA_AUTOMATICA + '?v=' + new Date().getTime())
                 .then(response => {
                     if (!response.ok) throw new Error("No encontrada");
@@ -214,24 +283,25 @@
                 .then(data => {
                     const workbook = XLSX.read(new Uint8Array(data), {type: 'array'});
                     const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: 1});
-                    procesarDatos(rows, 'Nube ☁️');
+                    procesarDatos(rows, 'Nube');
                 })
                 .catch(error => {
                     console.log(error);
-                    lblFile.innerText = `⚠️ No se pudo conectar a la nube. Usa el botón manual o verifica tu internet.`;
+                    // Solo muestra mensaje si falla
+                    lblFile.innerText = "⚠️ Error conexión. Usa carga manual.";
                     lblFile.style.color = "red";
                 });
         }
 
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0]; if (!file) return;
-            document.getElementById('lblFile').innerText = "⏳ Leyendo archivo manual...";
+            document.getElementById('lblFile').innerText = "⏳ Leyendo...";
             const reader = new FileReader();
             reader.onload = function(e) {
                 const data = new Uint8Array(e.target.result);
                 const workbook = XLSX.read(data, {type: 'array'});
                 const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: 1});
-                procesarDatos(rows, 'Manual 📂');
+                procesarDatos(rows, 'Manual');
             };
             reader.readAsArrayBuffer(file);
         });
@@ -247,13 +317,49 @@
                 }
             }
             inventario = lista;
-            const lblFile = document.getElementById('lblFile');
-            lblFile.innerText = `✅ Lista OK: ${inventario.length} Productos (${source})`;
-            lblFile.style.color = "#2E7D32";
+            try { localStorage.setItem(LOCAL_INVENTARIO_KEY, JSON.stringify(inventario)); } catch(e){}
+            
+            // 💡 V51: SI CARGA BIEN, BORRAMOS EL MENSAJE DE CARGA
+            document.getElementById('lblFile').innerText = ""; 
+            
             resultadosBusqueda = inventario; paginaActual = 1; renderizarPagina();
         }
 
-        // --- RESTO DE FUNCIONES (Igual que antes) ---
+        // --- FUNCIONES LOGOS ---
+        function toggleLogoPanel() { const p = document.getElementById('logoConfigPanel'); p.style.display = (p.style.display==='block') ? 'none' : 'block'; }
+        function borrarLogosLocales() { localStorage.removeItem(LOCAL_LOGO1_KEY); localStorage.removeItem(LOCAL_LOGO2_KEY); alert("Logos borrados."); location.reload(); }
+        function cargarLogoLocal(input, keyName) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const MAX_HEIGHT = 80; let width = img.width; let height = img.height;
+                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                        const canvas = document.createElement('canvas'); canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, width, height);
+                        const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                        try {
+                            if(keyName === 'logo1') localStorage.setItem(LOCAL_LOGO1_KEY, dataUrl);
+                            if(keyName === 'logo2') localStorage.setItem(LOCAL_LOGO2_KEY, dataUrl);
+                            aplicarLogos(keyName, dataUrl);
+                            alert("✅ Logo guardado.");
+                        } catch (error) { alert("❌ Memoria llena."); }
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        function recuperarLogos() {
+            const l1 = localStorage.getItem(LOCAL_LOGO1_KEY); const l2 = localStorage.getItem(LOCAL_LOGO2_KEY);
+            if(l1) aplicarLogos('logo1', l1); if(l2) aplicarLogos('logo2', l2);
+        }
+        function aplicarLogos(key, data) {
+            if(key==='logo1') { document.getElementById('imgLogo1').src=data; document.getElementById('imgLogo1_bud').src=data; }
+            if(key==='logo2') { document.getElementById('imgLogo2').src=data; document.getElementById('imgLogo2_bud').src=data; }
+        }
+
         document.getElementById("searchInput").addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); iniciarBusqueda(); } });
         function checkInput() { document.getElementById('btnClear').style.display = document.getElementById('searchInput').value.length > 0 ? 'block' : 'none'; }
         function limpiarBuscador() { const i = document.getElementById('searchInput'); i.value = ""; i.focus(); checkInput(); iniciarBusqueda(); }
@@ -339,7 +445,13 @@
             const chips = document.querySelectorAll('.chip-btn');
             chips.forEach(b => { if(parseInt(b.innerText)===disc) b.classList.add('active-chip'); else b.classList.remove('active-chip'); });
 
-            if(carrito.length===0) { div.innerHTML="<div style='text-align:center; padding:50px; color:#999;'>Vacío</div>"; foot.style.display='none'; document.getElementById('cartCount').innerText="0"; guardarDatosLocales(); return; }
+            // 💡 V51: ACTUALIZACIÓN DEL BADGE DEL CARRITO
+            const badge = document.getElementById('cartBadge');
+            badge.innerText = carrito.length;
+            badge.style.display = carrito.length > 0 ? 'block' : 'none';
+            // ---------------------------------------------
+
+            if(carrito.length===0) { div.innerHTML="<div style='text-align:center; padding:50px; color:#999;'>Vacío</div>"; foot.style.display='none'; guardarDatosLocales(); return; }
             
             foot.style.display='block'; div.innerHTML=""; let sub=0;
             carrito.forEach((p, i) => {
@@ -351,14 +463,19 @@
             });
             const total = redondear500(sub * (1 - disc/100));
             document.getElementById('txtSubtotal').innerText = "$" + formatMoney(sub); document.getElementById('txtTotalFinal').innerText = "$" + formatMoney(total);
-            document.getElementById('cartCount').innerText = carrito.length; guardarDatosLocales();
+            guardarDatosLocales();
         }
 
         function cambiarCant(i, v) { if(v<1)v=1; carrito[i].cant=v; actualizarCarrito(); }
         function borrar(i) { carrito.splice(i,1); actualizarCarrito(); }
         function borrarTodo() { if(confirm("¿Borrar todo?")) { carrito=[]; document.getElementById('inputCliente').value=""; actualizarCarrito(); } }
         function guardarDatosLocales() { localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({ carrito, cliente: document.getElementById('inputCliente').value, descuento: document.getElementById('inputDescuento').value, auth: descuentoAutorizado })); }
-        function cargarDatosLocales() { const d = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)); if(d) { carrito=d.carrito||[]; document.getElementById('inputCliente').value=d.cliente||""; document.getElementById('inputDescuento').value=d.descuento||0; descuentoAutorizado=d.auth||false; actualizarCarrito(); } }
+        function cargarDatosLocales() { 
+            const d = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)); 
+            if(d) { carrito=d.carrito||[]; document.getElementById('inputCliente').value=d.cliente||""; document.getElementById('inputDescuento').value=d.descuento||0; descuentoAutorizado=d.auth||false; actualizarCarrito(); }
+            // Intenta cargar inventario de caché
+            try { const inv = localStorage.getItem(LOCAL_INVENTARIO_KEY); if(inv) inventario = JSON.parse(inv); } catch(e){}
+        }
         
         function formatMoney(a) { return a.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function redondear500(v) { return Math.ceil(v/500)*500; }
@@ -378,7 +495,6 @@
             window.open(`https://wa.me/?text=${encodeURIComponent(m)}`); borrarTodo();
         }
 
-        // --- PDF (Sin LocalStorage para imágenes, usa lo del DOM) ---
         function getBase64FromImageElement(id) {
             const img = document.getElementById(id); if(!img || !img.complete || img.naturalWidth===0) return null;
             try { const c = document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); return c.toDataURL("image/png"); } catch(e){return null;}
