@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Presupuestador V51 (UI Limpia)</title>
+    <title>Presupuestador V52 (Ultra Limpio)</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -43,7 +43,7 @@
         .btn-clear { background: none; border: none; font-size: 18px; color: #aaa; padding: 0 10px; cursor: pointer; display: none; height: 40px; line-height: 40px; }
         
         /* Carga Minimalista */
-        .upload-section { background: var(--white); padding: 5px 15px; text-align: center; border-bottom: 1px solid #e0e0e0; min-height: 20px; }
+        .upload-section { background: var(--white); padding: 5px 15px; text-align: center; border-bottom: 1px solid #e0e0e0; min-height: 20px; display: block; }
         .file-custom-btn { background-color: #E3F2FD; border: 2px dashed var(--primary-blue); color: var(--primary-blue); padding: 12px; border-radius: 8px; cursor: pointer; display: block; font-weight: bold; width: 100%; box-sizing: border-box; font-size: 14px; margin-bottom: 5px; }
         
         .results-info { padding: 10px 15px; font-size: 13px; color: #555; font-weight: 600; display: flex; justify-content: space-between; align-items: center; background: #e8eaf6; border-bottom: 1px solid #d0d0d0; }
@@ -97,17 +97,16 @@
         #toast { visibility: hidden; min-width: 200px; background-color: #263238; color: #fff; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 3000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; opacity: 0; transition: opacity 0.2s, bottom 0.2s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 90px; }
 
-        /* 💡 NAVBAR & BADGE */
+        /* NAVBAR & BADGE */
         .nav { position: fixed; bottom: 0; width: 100%; height: 60px; background: var(--white); border-top: 1px solid #cfd8dc; display: flex; z-index: 2000; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #90a4ae; cursor: pointer; border: none; background: transparent; transition: 0.2s; position: relative; }
         .nav-item.active { color: var(--primary-blue); font-weight: bold; background-color: #f5f9fc; }
         .nav-icon { font-size: 24px; margin-bottom: 2px; }
         
-        /* GLOBO ROJO NOTIFICACIÓN */
         .nav-badge {
             position: absolute;
             top: 5px;
-            right: calc(50% - 15px); /* Posicionado sobre el icono */
+            right: calc(50% - 15px); 
             background-color: var(--accent-red);
             color: white;
             border-radius: 50%;
@@ -116,7 +115,7 @@
             font-weight: bold;
             min-width: 14px;
             text-align: center;
-            display: none; /* Oculto si es 0 */
+            display: none; 
             z-index: 10;
         }
 
@@ -157,9 +156,9 @@
             </div>
         </header>
 
-        <div class="upload-section">
+        <div class="upload-section" id="uploadSection">
             <span id="lblFile" style="font-weight:bold; color:#0D47A1;">⏳ Conectando...</span>
-            <label for="fileInput" style="margin-top:5px; display:block; cursor:pointer; text-decoration:underline; font-size:11px;">(Cargar Excel manual si falla)</label>
+            <label for="fileInput" id="lblManualInput" style="margin-top:5px; display:none; cursor:pointer; text-decoration:underline; font-size:11px;">(⚠️ Falló conexión. Toca para cargar Manual)</label>
             <input type="file" id="fileInput" accept=".xlsx, .xls" style="display:none;">
         </div>
         
@@ -250,14 +249,15 @@
         </button>
         <button class="nav-item" onclick="cambiarVista('budget')" id="navBud">
             <span class="nav-icon">🛒</span>
-            <span id="cartBadge" class="nav-badge">0</span> Pedido </button>
+            <span id="cartBadge" class="nav-badge">0</span> Pedido
+        </button>
     </nav>
 
     <script>
         const CLAVE_AUTORIZACION = 'chpmc'; const MAX_DISC_SIN_CLAVE = 15;
         const ARCHIVO_LISTA_AUTOMATICA = 'Lista CHPMC.xlsx'; 
-        const LOCAL_STORAGE_KEY = 'datosAppV51';
-        const LOCAL_INVENTARIO_KEY = 'inventarioV51';
+        const LOCAL_STORAGE_KEY = 'datosAppV52';
+        const LOCAL_INVENTARIO_KEY = 'inventarioV52';
         const LOCAL_LOGO1_KEY = 'logo1_v44';
         const LOCAL_LOGO2_KEY = 'logo2_v44';
         
@@ -266,15 +266,21 @@
         window.onload = function() { 
             cargarDatosLocales(); 
             recuperarLogos();
-            // Intenta cargar pero no muestra mensaje si sale bien
             if (inventario.length === 0) intentarCargaNube();
-            else document.getElementById('lblFile').innerText = ""; // Limpia si ya hay datos
+            else {
+                // Si ya hay datos en memoria, OCULTAMOS la barra de carga directamente
+                document.getElementById('uploadSection').style.display = 'none';
+            }
         };
 
         function intentarCargaNube() {
             const lblFile = document.getElementById('lblFile');
-            lblFile.innerText = "⏳ Conectando..."; // Mensaje temporal
+            const manualInput = document.getElementById('lblManualInput');
             
+            // Estado Inicial: Texto Conectando, input manual oculto
+            lblFile.innerText = "⏳ Conectando..."; 
+            manualInput.style.display = 'none';
+
             fetch(ARCHIVO_LISTA_AUTOMATICA + '?v=' + new Date().getTime())
                 .then(response => {
                     if (!response.ok) throw new Error("No encontrada");
@@ -287,9 +293,11 @@
                 })
                 .catch(error => {
                     console.log(error);
-                    // Solo muestra mensaje si falla
-                    lblFile.innerText = "⚠️ Error conexión. Usa carga manual.";
-                    lblFile.style.color = "red";
+                    // ⚠️ SOLO AQUI (SI FALLA) MOSTRAMOS EL BOTÓN MANUAL
+                    lblFile.innerText = ""; // Borramos el texto "Conectando"
+                    manualInput.style.display = 'block'; // Aparece el botón manual
+                    // Aseguramos que el contenedor sea visible
+                    document.getElementById('uploadSection').style.display = 'block';
                 });
         }
 
@@ -319,8 +327,8 @@
             inventario = lista;
             try { localStorage.setItem(LOCAL_INVENTARIO_KEY, JSON.stringify(inventario)); } catch(e){}
             
-            // 💡 V51: SI CARGA BIEN, BORRAMOS EL MENSAJE DE CARGA
-            document.getElementById('lblFile').innerText = ""; 
+            // 💡 V52: SI CARGA BIEN, OCULTAMOS TODO EL BLOQUE DE CARGA
+            document.getElementById('uploadSection').style.display = 'none';
             
             resultadosBusqueda = inventario; paginaActual = 1; renderizarPagina();
         }
@@ -445,11 +453,10 @@
             const chips = document.querySelectorAll('.chip-btn');
             chips.forEach(b => { if(parseInt(b.innerText)===disc) b.classList.add('active-chip'); else b.classList.remove('active-chip'); });
 
-            // 💡 V51: ACTUALIZACIÓN DEL BADGE DEL CARRITO
+            // 💡 V52: ACTUALIZACIÓN DEL BADGE
             const badge = document.getElementById('cartBadge');
             badge.innerText = carrito.length;
             badge.style.display = carrito.length > 0 ? 'block' : 'none';
-            // ---------------------------------------------
 
             if(carrito.length===0) { div.innerHTML="<div style='text-align:center; padding:50px; color:#999;'>Vacío</div>"; foot.style.display='none'; guardarDatosLocales(); return; }
             
@@ -473,7 +480,6 @@
         function cargarDatosLocales() { 
             const d = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)); 
             if(d) { carrito=d.carrito||[]; document.getElementById('inputCliente').value=d.cliente||""; document.getElementById('inputDescuento').value=d.descuento||0; descuentoAutorizado=d.auth||false; actualizarCarrito(); }
-            // Intenta cargar inventario de caché
             try { const inv = localStorage.getItem(LOCAL_INVENTARIO_KEY); if(inv) inventario = JSON.parse(inv); } catch(e){}
         }
         
