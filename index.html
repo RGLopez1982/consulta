@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Presupuestador V54 (Compartir Limpio)</title>
+    <title>Presupuestador V55 (Fecha Actualización)</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -34,9 +34,12 @@
         .config-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; font-size: 20px; cursor: pointer; opacity: 0.5; }
         #logoConfigPanel { display: none; background: #fff; padding: 15px; border-bottom: 1px solid #ccc; text-align: center; }
         
-        .header-content { padding: 0 15px; }
-        h1 { margin: 0 0 10px 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; text-align: center; }
+        .header-content { padding: 0 15px; text-align: center; }
+        h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
         
+        /* 💡 ESTILO PARA LA FECHA DE ACTUALIZACIÓN */
+        .update-badge { font-size: 11px; color: rgba(255,255,255,0.8); margin-bottom: 8px; display: block; font-weight: 500; }
+
         .search-container { display: flex; background: var(--white); border-radius: 8px; padding: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); align-items: center; }
         .search-input { border: none; flex-grow: 1; padding: 10px; font-size: 16px; outline: none; border-radius: 8px; color: #333; }
         .search-btn { background: var(--white); border: 1px solid #cfd8dc; border-radius: 6px; padding: 0 10px; font-size: 18px; cursor: pointer; color: var(--accent-red); height: 40px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
@@ -133,16 +136,10 @@
 
     <div id="imgModal">
         <img id="imgPreview" src="" alt="Recibo">
-        
         <div class="modal-controls">
-            <button class="btn-modal-share" onclick="compartirNativo()">
-                📤 Enviar a WhatsApp
-            </button>
-            <button class="btn-modal-close" onclick="cerrarModalImg()">
-                Cerrar
-            </button>
+            <button class="btn-modal-share" onclick="compartirNativo()">📤 Enviar a WhatsApp</button>
+            <button class="btn-modal-close" onclick="cerrarModalImg()">Cerrar</button>
         </div>
-        
         <div style="color:#aaa; margin-top:15px; font-size:11px; text-align:center;">
             (Si no funciona el botón, mantén presionado la imagen)
         </div>
@@ -170,6 +167,8 @@
 
             <div class="header-content">
                 <h1>Catálogo Online</h1>
+                <span id="updateDate" class="update-badge"></span>
+                
                 <div class="search-container">
                     <input type="text" id="searchInput" class="search-input" placeholder="Buscar (Ej: parag hilux)..." oninput="checkInput()">
                     <button id="btnClear" class="btn-clear" onclick="limpiarBuscador()">✖</button>
@@ -280,8 +279,8 @@
     <script>
         const CLAVE_AUTORIZACION = 'chpmc'; const MAX_DISC_SIN_CLAVE = 15;
         const ARCHIVO_LISTA_AUTOMATICA = 'Lista CHPMC.xlsx'; 
-        const LOCAL_STORAGE_KEY = 'datosAppV54';
-        const LOCAL_INVENTARIO_KEY = 'inventarioV54';
+        const LOCAL_STORAGE_KEY = 'datosAppV55';
+        const LOCAL_INVENTARIO_KEY = 'inventarioV55';
         const LOCAL_LOGO1_KEY = 'logo1_v44';
         const LOCAL_LOGO2_KEY = 'logo2_v44';
         
@@ -300,7 +299,18 @@
             lblFile.innerText = "⏳ Conectando..."; manualInput.style.display = 'none';
 
             fetch(ARCHIVO_LISTA_AUTOMATICA + '?v=' + new Date().getTime())
-                .then(response => { if (!response.ok) throw new Error("No encontrada"); return response.arrayBuffer(); })
+                .then(response => { 
+                    if (!response.ok) throw new Error("No encontrada"); 
+                    
+                    // 💡 V55: OBTENER FECHA DE MODIFICACIÓN DEL HEADER DE GITHUB/SERVIDOR
+                    const lastMod = response.headers.get('Last-Modified');
+                    if (lastMod) {
+                        const dateObj = new Date(lastMod);
+                        mostrarFechaActualizacion(dateObj);
+                    }
+                    
+                    return response.arrayBuffer(); 
+                })
                 .then(data => {
                     const workbook = XLSX.read(new Uint8Array(data), {type: 'array'});
                     const rows = XLSX.utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]], {header: 1});
@@ -316,6 +326,13 @@
 
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0]; if (!file) return;
+            
+            // 💡 V55: OBTENER FECHA DE MODIFICACIÓN DEL ARCHIVO LOCAL
+            if (file.lastModified) {
+                const dateObj = new Date(file.lastModified);
+                mostrarFechaActualizacion(dateObj);
+            }
+
             document.getElementById('lblFile').innerText = "⏳ Leyendo...";
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -326,6 +343,13 @@
             };
             reader.readAsArrayBuffer(file);
         });
+
+        // 💡 FUNCIÓN NUEVA: MOSTRAR FECHA FORMATEADA
+        function mostrarFechaActualizacion(date) {
+            const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const fechaStr = date.toLocaleDateString('es-AR', opciones);
+            document.getElementById('updateDate').innerText = `📅 Act: ${fechaStr}`;
+        }
 
         function procesarDatos(rows, source) {
             const lista = [];
