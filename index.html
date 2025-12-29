@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catálogo CHPMC V57</title>
+    <title>Catálogo CHPMC V58</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
@@ -31,7 +31,7 @@
 
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding-bottom: 120px; background-color: var(--bg-light); color: var(--text-dark); scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
         
-        /* HEADER & LOGOS */
+        /* HEADER */
         header { background-color: var(--primary-blue); color: var(--white); padding: 0 0 15px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .logos-bar { background-color: var(--white); padding: 20px; display: flex; justify-content: center; align-items: center; gap: 20px; border-bottom: 4px solid var(--accent-red); margin-bottom: 10px; position: relative; }
         .brand-logo { height: 90px; width: auto; max-width: 45vw; object-fit: contain; display: block; }
@@ -44,20 +44,19 @@
         /* BUSCADOR */
         .search-container { display: flex; background: var(--white); border-radius: 8px; padding: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); align-items: center; }
         .search-input { border: none; flex-grow: 1; padding: 10px; font-size: 16px; outline: none; border-radius: 8px; color: #333; }
-        .search-btn { background: var(--white); border: 1px solid #cfd8dc; border-radius: 6px; padding: 0 10px; font-size: 18px; cursor: pointer; color: var(--accent-red); height: 40px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .search-btn { background: var(--white); border: 1px solid #cfd8dc; border-radius: 6px; padding: 0 10px; font-size: 18px; cursor: pointer; color: var(--accent-red); height: 40px; display: flex; align-items: center; justify-content: center; }
         .btn-clear { background: none; border: none; font-size: 18px; color: #aaa; padding: 0 10px; cursor: pointer; display: none; height: 40px; line-height: 40px; }
         
-        /* CARGA Y BOTONES */
+        /* CARGA */
         .upload-section { background: var(--white); padding: 5px 15px; text-align: center; border-bottom: 1px solid #e0e0e0; min-height: 20px; display: block; }
         .file-custom-btn { background-color: #E3F2FD; border: 2px dashed var(--primary-blue); color: var(--primary-blue); padding: 12px; border-radius: 8px; cursor: pointer; display: block; font-weight: bold; width: 100%; box-sizing: border-box; font-size: 14px; margin-bottom: 5px; }
         
-        /* LISTADOS Y TARJETAS */
+        /* LISTAS */
         .results-info { padding: 10px 15px; font-size: 13px; color: #555; font-weight: 600; display: flex; justify-content: space-between; align-items: center; background: #e8eaf6; border-bottom: 1px solid #d0d0d0; }
         .container { max-width: 800px; margin: 0 auto; padding: 10px; }
         .card { background: var(--white); padding: 16px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; border-left: 4px solid transparent; }
         .badge-code { font-size: 11px; background: #eceff1; color: #546e7a; padding: 3px 6px; border-radius: 4px; display: inline-block; margin-bottom: 6px; font-weight: bold; }
         .prod-desc { font-size: 15px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; padding-right: 10px; color: #2c3e50; }
-        
         .dual-price-container { display: flex; align-items: center; gap: 15px; margin: 8px 0; background: #f9f9f9; padding: 8px; border-radius: 6px; }
         .price-box { display: flex; flex-direction: column; }
         .price-label { font-size: 10px; text-transform: uppercase; color: #777; font-weight: bold; }
@@ -74,16 +73,6 @@
         .btn-add { background-color: var(--primary-blue); color: var(--white); border: none; padding: 10px 22px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 13px; letter-spacing: 0.5px; box-shadow: 0 2px 5px rgba(13, 71, 161, 0.3); }
         .btn-add:active { transform: scale(0.98); }
         
-        .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px 0; }
-        .page-btn { background: var(--white); border: 1px solid #cfd8dc; padding: 8px 16px; border-radius: 6px; font-weight: bold; color: var(--primary-blue); cursor: pointer; }
-        .page-btn:disabled { background: #f5f5f5; color: #b0bec5; cursor: not-allowed; border-color: #eee; }
-        .page-info { font-size: 14px; color: #555; }
-
-        .client-input { width: 100%; padding: 12px; margin-top: 10px; border: 1px solid #cfd8dc; border-radius: 8px; font-size: 16px; box-sizing: border-box; outline-color: var(--primary-blue); }
-        .budget-card { border-left: 5px solid var(--primary-blue); }
-        .controls-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 10px; }
-        .btn-del { width: 32px; height: 32px; background: #ffebee; color: var(--accent-red); border: none; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        
         /* FOOTER & TOTALES */
         .footer { background: var(--white); padding: 15px 15px; border-top: 1px solid #e0e0e0; margin-top: 10px; border-radius: 20px 20px 0 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
         .total-tarjeta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 14px; color: #546e7a; font-weight: 500; }
@@ -96,54 +85,76 @@
         .chips-container { display: flex; gap: 6px; justify-content: flex-start; margin-bottom: 5px; margin-top: 5px; flex-wrap: wrap; }
         .chip-btn { background: #fff; border: 1px solid #90CAF9; padding: 4px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; color: #1976D2; cursor: pointer; transition: 0.2s; }
         .chip-btn.active-chip { background: var(--primary-blue); color: #fff; border-color: var(--primary-blue); }
-        
         .action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
         .btn-pdf { background: var(--accent-red); color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3); }
         .btn-img { background: #FF9800; color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(255, 152, 0, 0.3); }
         .btn-whatsapp { background: var(--whatsapp-green); color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(37, 211, 102, 0.3); }
         
-        /* UTILIDADES (Scroll, Toast, Navbar) */
+        /* UI HELPERS */
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px 0; }
+        .page-btn { background: var(--white); border: 1px solid #cfd8dc; padding: 8px 16px; border-radius: 6px; font-weight: bold; color: var(--primary-blue); cursor: pointer; }
+        .page-btn:disabled { background: #f5f5f5; color: #b0bec5; cursor: not-allowed; border-color: #eee; }
+        .page-info { font-size: 14px; color: #555; }
         #btnScrollTop { position: fixed; bottom: 80px; right: 20px; width: 50px; height: 50px; background-color: var(--primary-blue); color: white; border: none; border-radius: 50%; font-size: 24px; cursor: pointer; display: none; z-index: 1500; align-items: center; justify-content: center; opacity: 0.9; }
         #toast { visibility: hidden; min-width: 200px; background-color: #263238; color: #fff; text-align: center; border-radius: 50px; padding: 12px; position: fixed; z-index: 3000; left: 50%; bottom: 80px; transform: translateX(-50%); font-size: 14px; opacity: 0; transition: opacity 0.2s, bottom 0.2s; }
         #toast.show { visibility: visible; opacity: 1; bottom: 90px; }
-
         .nav { position: fixed; bottom: 0; width: 100%; height: 60px; background: var(--white); border-top: 1px solid #cfd8dc; display: flex; z-index: 2000; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; color: #90a4ae; cursor: pointer; border: none; background: transparent; transition: 0.2s; position: relative; }
         .nav-item.active { color: var(--primary-blue); font-weight: bold; background-color: #f5f9fc; }
         .nav-icon { font-size: 24px; margin-bottom: 2px; }
         .nav-badge { position: absolute; top: 5px; right: calc(50% - 15px); background-color: var(--accent-red); color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold; min-width: 14px; text-align: center; display: none; z-index: 10; }
+        .btn-del { width: 32px; height: 32px; background: #ffebee; color: var(--accent-red); border: none; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        /* MODAL IMAGEN & CAPTURA */
+        /* MODAL GENÉRICO (Nuevo V58) */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; }
+        .modal-content { background: white; width: 85%; max-width: 320px; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: popIn 0.2s ease; }
+        .modal-title { font-size: 18px; font-weight: bold; color: var(--primary-blue); margin-bottom: 10px; }
+        .modal-text { font-size: 14px; color: #555; margin-bottom: 20px; }
+        .modal-input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; text-align: center; }
+        .modal-actions { display: flex; gap: 10px; justify-content: center; }
+        .btn-modal-cancel { flex: 1; padding: 10px; border: none; background: #f5f5f5; color: #666; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        .btn-modal-confirm { flex: 1; padding: 10px; border: none; background: var(--primary-blue); color: white; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+
+        /* MODAL IMAGEN ESPECÍFICO */
         #imgModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; align-items: center; justify-content: center; flex-direction: column; padding: 20px; box-sizing: border-box; }
         #imgPreview { max-width: 95%; max-height: 70%; border-radius: 8px; box-shadow: 0 0 20px rgba(255,255,255,0.1); margin-bottom: 15px; }
-        .modal-controls { display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center; }
-        .btn-modal-share { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; background: #25D366; color: white; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .btn-modal-close { flex: 0.5; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; background: #ff5252; color: white; }
-
+        #customItemCard .card { border: 2px solid var(--accent-red); border-left: 4px solid var(--accent-red); }
+        #customItemCard .client-input { border: 1px solid #cfd8dc; padding: 8px; box-sizing: border-box; }
         #captureArea { position: absolute; left: -9999px; top: 0; width: 550px; background: white; padding: 20px; font-family: sans-serif; border: 1px solid #ccc; }
         .cap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #D32F2F; padding-bottom: 15px; margin-bottom: 15px; }
         .cap-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .cap-table th { background: #0D47A1; color: white; padding: 8px; font-size: 12px; text-align: left; }
         .cap-table td { border-bottom: 1px solid #eee; padding: 8px; font-size: 12px; color: #333; }
         .cap-total { text-align: right; margin-top: 20px; }
-        
-        #customItemCard .card { border: 2px solid var(--accent-red); border-left: 4px solid var(--accent-red); }
-        #customItemCard .client-input { border: 1px solid #cfd8dc; padding: 8px; box-sizing: border-box; }
         @media (max-width: 600px) { .logos-bar { padding: 10px 5px; gap: 10px; } .brand-logo { height: 50px; max-width: 40vw; } .config-btn { font-size: 16px; top: 2px; right: 2px; } }
     </style>
 </head>
 <body>
     <button id="btnScrollTop" onclick="scrollToTop()">⬆</button>
-
     <div id="captureArea"></div>
 
     <div id="imgModal">
         <img id="imgPreview" src="" alt="Recibo">
-        <div class="modal-controls">
-            <button class="btn-modal-share" onclick="compartirNativo()">📤 Enviar a WhatsApp</button>
-            <button class="btn-modal-close" onclick="cerrarModalImg()">Cerrar</button>
+        <div class="modal-controls" style="display:flex; gap:15px; width:100%; max-width:400px; justify-content:center;">
+            <button class="btn-modal-share" onclick="compartirNativo()" style="flex:1; padding:12px; border-radius:8px; border:none; font-weight:bold; cursor:pointer; font-size:14px; background:#25D366; color:white;">📤 Enviar a WhatsApp</button>
+            <button class="btn-modal-close" onclick="document.getElementById('imgModal').style.display='none'" style="flex:0.5; padding:12px; border-radius:8px; border:none; font-weight:bold; cursor:pointer; font-size:14px; background:#ff5252; color:white;">Cerrar</button>
         </div>
         <div style="color:#aaa; margin-top:15px; font-size:11px; text-align:center;">(Si no funciona, mantén presionado para compartir)</div>
+    </div>
+
+    <div id="genericModal" class="modal-overlay">
+        <div class="modal-content">
+            <div id="genModalTitle" class="modal-title">Título</div>
+            <div id="genModalText" class="modal-text">Mensaje</div>
+            <div id="genModalInputContainer" style="display:none;">
+                <input type="password" id="genModalInput" class="modal-input" placeholder="">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-modal-cancel" onclick="UI.cerrarModal()">Cancelar</button>
+                <button id="genModalConfirmBtn" class="btn-modal-confirm">Aceptar</button>
+            </div>
+        </div>
     </div>
 
     <div id="viewCatalog">
@@ -153,19 +164,13 @@
                 <img src="Logo.png" alt="Logo 1" class="brand-logo" id="imgLogo1" onerror="this.style.display='none'">
                 <img src="logo_multicolor.png" alt="Logo 2" class="brand-logo" id="imgLogo2" onerror="this.style.display='none'">
             </div>
-            
             <div id="logoConfigPanel">
                 <p style="font-size:14px; font-weight:bold; margin-bottom:10px;">Configurar Logos</p>
-                <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100; margin-bottom:8px;">
-                    🖼️ Logo Izq (Logo.png) <input type="file" accept="image/*" style="display:none" onchange="cargarLogoLocal(this, 'logo1')">
-                </label>
-                <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100;">
-                    🖼️ Logo Der (Multicolor) <input type="file" accept="image/*" style="display:none" onchange="cargarLogoLocal(this, 'logo2')">
-                </label>
+                <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100; margin-bottom:8px;">🖼️ Logo Izq (Logo.png) <input type="file" accept="image/*" style="display:none" onchange="cargarLogoLocal(this, 'logo1')"></label>
+                <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100;">🖼️ Logo Der (Multicolor) <input type="file" accept="image/*" style="display:none" onchange="cargarLogoLocal(this, 'logo2')"></label>
                 <button onclick="borrarLogosLocales()" style="margin-top:10px; padding:8px 15px; border:none; background:#ffebee; color:#D32F2F; border-radius:4px; font-weight:bold;">🗑️ Borrar Logos</button>
                 <br><br><button onclick="toggleLogoPanel()" style="padding:5px 15px; border:1px solid #999; background:#eee; border-radius:4px;">Cerrar</button>
             </div>
-
             <div class="header-content">
                 <h1>Catálogo Online</h1>
                 <span id="updateDate" class="update-badge"></span>
@@ -243,7 +248,7 @@
             <div class="total-efectivo-box" id="efectivoBox">
                 <div class="efectivo-label">
                     Efectivo / Transferencia
-                    <span>Desc. <input type="number" id="inputDescuento" class="mini-disc-input" value="0" min="0" max="100" onchange="actualizarCarrito()" onkeydown="if(event.key === 'Enter') { event.preventDefault(); this.blur(); }" onfocus="this.select()">%</span>
+                    <span>Desc. <input type="number" id="inputDescuento" class="mini-disc-input" value="0" min="0" max="100" onchange="verificarDescuento(this.value)" onkeydown="if(event.key === 'Enter') { event.preventDefault(); this.blur(); }" onfocus="this.select()">%</span>
                 </div>
                 <div class="chips-container">
                     <button class="chip-btn" onclick="setDescuento(0)">0%</button>
@@ -271,21 +276,24 @@
     </nav>
 
     <script>
-        // --- 1. CONFIGURACIÓN Y CONSTANTES ---
+        // --- 1. CONFIGURACIÓN ---
         const Config = {
-            clave: 'chpmc', // Nota: Seguridad solo nivel cliente
+            clave: 'chpmc',
             maxDescuentoSinClave: 15,
             archivoLista: 'Lista CHPMC.xlsx',
-            keys: {
-                storage: 'datosAppV57',
-                inventario: 'inventarioV57',
-                logo1: 'logo1_v44',
-                logo2: 'logo2_v44'
-            },
-            itemsPorPagina: 20
+            keys: { storage: 'datosAppV58', inventario: 'inventarioV58', logo1: 'logo1_v44', logo2: 'logo2_v44' },
+            itemsPorPagina: 20,
+            // DATOS DE LA EMPRESA (Editables aquí)
+            empresa: {
+                linea1_izq: "Rivadavia 1299 - Rivadavia 1340 - Sgo",
+                linea2_izq: "Alem 603 - La Banda",
+                linea3_izq: "Tel: 3855135474 / 3856281309 / 3854739612",
+                linea1_der: "Rivadavia 1270 - Sgo",
+                linea2_der: "Bolivia (N) 158 - La Banda",
+                linea3_der: "Tel: 3856258128 / 3854977332"
+            }
         };
 
-        // --- 2. ESTADO DE LA APLICACIÓN (ENCAPSULADO) ---
         const App = {
             inventario: [],
             carrito: [],
@@ -294,25 +302,56 @@
             descuentoAutorizado: false
         };
 
+        // --- 2. SISTEMA DE MODALES (UI PROPIA) ---
+        const UI = {
+            modal: document.getElementById('genericModal'),
+            title: document.getElementById('genModalTitle'),
+            text: document.getElementById('genModalText'),
+            inputContainer: document.getElementById('genModalInputContainer'),
+            input: document.getElementById('genModalInput'),
+            confirmBtn: document.getElementById('genModalConfirmBtn'),
+
+            abrirConfirmacion: function(titulo, mensaje, onConfirm) {
+                this.title.innerText = titulo;
+                this.text.innerText = mensaje;
+                this.inputContainer.style.display = 'none';
+                this.modal.style.display = 'flex';
+                this.confirmBtn.onclick = () => { onConfirm(); this.cerrarModal(); };
+            },
+
+            abrirInput: function(titulo, mensaje, onConfirm) {
+                this.title.innerText = titulo;
+                this.text.innerText = mensaje;
+                this.inputContainer.style.display = 'block';
+                this.input.value = '';
+                this.modal.style.display = 'flex';
+                this.input.focus();
+                
+                // Confirmar con Enter
+                this.input.onkeypress = (e) => {
+                    if (e.key === 'Enter') { onConfirm(this.input.value); this.cerrarModal(); }
+                };
+                
+                this.confirmBtn.onclick = () => { onConfirm(this.input.value); this.cerrarModal(); };
+            },
+
+            cerrarModal: function() {
+                this.modal.style.display = 'none';
+            }
+        };
+
         // --- 3. INICIALIZACIÓN ---
         window.onload = function() { 
             cargarDatosLocales(); 
             recuperarLogos();
-            if (App.inventario.length === 0) {
-                intentarCargaNube();
-            } else {
-                document.getElementById('uploadSection').style.display = 'none';
-                // Si hay fecha guardada en memoria, podríamos mostrarla, pero 
-                // por simplicidad esperaremos a la próxima conexión online para actualizar el badge.
-            }
+            if (App.inventario.length === 0) intentarCargaNube(); else document.getElementById('uploadSection').style.display = 'none';
         };
 
-        // --- 4. CARGA DE DATOS (NUBE / LOCAL) ---
+        // --- 4. CARGA DE DATOS ---
         function intentarCargaNube() {
             const lblFile = document.getElementById('lblFile');
             const manualInput = document.getElementById('lblManualInput');
             lblFile.innerText = "⏳ Conectando..."; manualInput.style.display = 'none';
-
             fetch(Config.archivoLista + '?v=' + new Date().getTime())
                 .then(response => { 
                     if (!response.ok) throw new Error("No encontrada"); 
@@ -327,8 +366,7 @@
                 })
                 .catch(error => {
                     console.log(error);
-                    lblFile.innerText = ""; 
-                    manualInput.style.display = 'block'; 
+                    lblFile.innerText = ""; manualInput.style.display = 'block'; 
                     document.getElementById('uploadSection').style.display = 'block';
                 });
         }
@@ -367,12 +405,10 @@
             App.inventario = lista;
             try { localStorage.setItem(Config.keys.inventario, JSON.stringify(App.inventario)); } catch(e){}
             document.getElementById('uploadSection').style.display = 'none';
-            App.resultadosBusqueda = App.inventario; 
-            App.paginaActual = 1; 
-            renderizarPagina();
+            App.resultadosBusqueda = App.inventario; App.paginaActual = 1; renderizarPagina();
         }
 
-        // --- 5. LÓGICA DE BÚSQUEDA Y RENDERIZADO ---
+        // --- 5. BÚSQUEDA ---
         document.getElementById("searchInput").addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); iniciarBusqueda(); } });
         function checkInput() { document.getElementById('btnClear').style.display = document.getElementById('searchInput').value.length > 0 ? 'block' : 'none'; }
         function limpiarBuscador() { const i = document.getElementById('searchInput'); i.value = ""; i.focus(); checkInput(); iniciarBusqueda(); }
@@ -381,79 +417,51 @@
         function iniciarBusqueda() {
             const val = document.getElementById('searchInput').value.toLowerCase(); 
             const terminos = val.split(" ").filter(t => t.length > 0);
-            
             document.getElementById('customItemWrapper').style.display = (val.includes("00") && val.length > 0) ? 'block' : 'none';
-            
-            if (terminos.length === 0) {
-                App.resultadosBusqueda = App.inventario;
-            } else {
-                App.resultadosBusqueda = App.inventario.filter(p => { 
-                    const t = (p.desc + " " + p.cod).toLowerCase(); 
-                    if (p.cod==='00') return false; 
-                    return terminos.every(tm => t.includes(tm)); 
-                });
-            }
-            App.paginaActual = 1; 
-            renderizarPagina(); 
-            scrollToTop();
+            if (terminos.length === 0) App.resultadosBusqueda = App.inventario;
+            else App.resultadosBusqueda = App.inventario.filter(p => { 
+                const t = (p.desc + " " + p.cod).toLowerCase(); 
+                if (p.cod==='00') return false; 
+                return terminos.every(tm => t.includes(tm)); 
+            });
+            App.paginaActual = 1; renderizarPagina(); scrollToTop();
         }
 
         function renderizarPagina() {
             const div = document.getElementById('catalogList');
-            const total = App.resultadosBusqueda.length; 
-            const pags = Math.ceil(total / Config.itemsPorPagina);
-            
-            if(App.paginaActual < 1) App.paginaActual = 1; 
-            if(App.paginaActual > pags && pags > 0) App.paginaActual = pags;
-            
+            const total = App.resultadosBusqueda.length; const pags = Math.ceil(total / Config.itemsPorPagina);
+            if(App.paginaActual < 1) App.paginaActual = 1; if(App.paginaActual > pags && pags > 0) App.paginaActual = pags;
             document.getElementById('txtCount').innerText = `${total} productos`; 
             document.getElementById('txtPage').innerText = pags > 0 ? `Pág ${App.paginaActual}/${pags}` : "---";
             document.getElementById('resultsInfo').style.display = 'flex';
             
             if (total === 0) {
-                if (document.getElementById('customItemWrapper').style.display !== 'block') {
-                    div.innerHTML = "<div style='text-align:center; padding:40px; color:#999;'>No hay coincidencias.</div>";
-                } else {
-                    div.innerHTML = "";
-                }
-                document.getElementById('paginationControls').style.display = 'none'; 
-                return;
+                div.innerHTML = document.getElementById('customItemWrapper').style.display !== 'block' ? "<div style='text-align:center; padding:40px; color:#999;'>No hay coincidencias.</div>" : "";
+                document.getElementById('paginationControls').style.display = 'none'; return;
             }
 
             const inicio = (App.paginaActual - 1) * Config.itemsPorPagina;
             const items = App.resultadosBusqueda.slice(inicio, inicio + Config.itemsPorPagina);
-            
-            // OPTIMIZACIÓN: Construimos el HTML en un array y luego unimos (más rápido)
             const htmlItems = items.map(p => {
                 const pCash = p.precioCash > 0 ? p.precioCash : p.precio * 0.85;
-                return `
-                    <div class="card">
-                        <div><span class="badge-code">${p.cod}</span></div>
-                        <div class="prod-desc">${p.desc}</div>
-                        <div class="dual-price-container">
-                            <div class="price-box"><span class="price-label">Lista / Tarjeta</span><span class="price-val-list">$${formatMoney(p.precio)}</span></div>
-                            <div class="divider"></div>
-                            <div class="price-box"><span class="price-label">Efectivo</span><span class="price-val-cash">$${formatMoney(pCash)}</span></div>
-                        </div>
-                        <div class="action-row">
-                            <div style="flex-grow:1;"></div>
-                            <div class="add-controls">
-                                <button class="qty-btn-adjust" onclick="ajustarCat('${p.cod}', -1)">-</button>
-                                <input type="number" id="qty_${p.cod}" class="qty-catalog" value="1" min="1">
-                                <button class="qty-btn-adjust" onclick="ajustarCat('${p.cod}', 1)">+</button>
-                                <button class="btn-add" onclick="agregar('${p.cod}')">AGREGAR</button>
-                            </div>
-                        </div>
-                    </div>`;
+                return `<div class="card">
+                    <div><span class="badge-code">${p.cod}</span></div><div class="prod-desc">${p.desc}</div>
+                    <div class="dual-price-container">
+                        <div class="price-box"><span class="price-label">Lista / Tarjeta</span><span class="price-val-list">$${formatMoney(p.precio)}</span></div>
+                        <div class="divider"></div>
+                        <div class="price-box"><span class="price-label">Efectivo</span><span class="price-val-cash">$${formatMoney(pCash)}</span></div>
+                    </div>
+                    <div class="action-row"><div style="flex-grow:1;"></div><div class="add-controls">
+                        <button class="qty-btn-adjust" onclick="ajustarCat('${p.cod}', -1)">-</button>
+                        <input type="number" id="qty_${p.cod}" class="qty-catalog" value="1" min="1">
+                        <button class="qty-btn-adjust" onclick="ajustarCat('${p.cod}', 1)">+</button>
+                        <button class="btn-add" onclick="agregar('${p.cod}')">AGREGAR</button>
+                    </div></div></div>`;
             });
-            
             div.innerHTML = htmlItems.join('');
-
             document.getElementById('paginationControls').style.display = 'flex';
             document.getElementById('lblPageIndicator').innerText = `${App.paginaActual} / ${pags}`;
-            document.getElementById('btnPrev').disabled = (App.paginaActual === 1); 
-            document.getElementById('btnNext').disabled = (App.paginaActual === pags);
-            
+            document.getElementById('btnPrev').disabled = (App.paginaActual === 1); document.getElementById('btnNext').disabled = (App.paginaActual === pags);
             if(inicio > 0) document.getElementById('resultsInfo').scrollIntoView({behavior: 'smooth'});
         }
 
@@ -461,48 +469,63 @@
         function ajustarCat(c, d) { const i = document.getElementById(`qty_${c}`); if(!i)return; let n = (parseInt(i.value)||1)+d; if(n<1)n=1; i.value = n; }
         function ajustarCantidadComodin(d) { const i = document.getElementById('custom_qty'); if(!i)return; let n = (parseInt(i.value)||1)+d; if(n<1)n=1; i.value = n; }
 
-        // --- 6. GESTIÓN DEL CARRITO ---
+        // --- 6. CARRITO (CON UUID) ---
         function agregarCustom() {
             const d = document.getElementById('custom_desc').value.trim(); 
-            const p = parseFloat(document.getElementById('custom_price').value)||0; 
-            const q = parseInt(document.getElementById('custom_qty').value)||1;
-            if (d.length < 3 || p <= 0 || q < 1) return alert("Datos inválidos");
+            const p = parseFloat(document.getElementById('custom_price').value)||0; const q = parseInt(document.getElementById('custom_qty').value)||1;
+            if (d.length < 3 || p <= 0 || q < 1) return mostrarToast("⚠️ Datos inválidos");
             
-            App.carrito.push({ cod: '00', desc: d, precio: p, cant: q, uuid: Date.now() }); 
+            // 💡 UUID: crypto.randomUUID()
+            App.carrito.push({ cod: '00', desc: d, precio: p, cant: q, uuid: crypto.randomUUID() }); 
             actualizarCarrito(); mostrarToast("✅ Agregado");
-            
-            document.getElementById('custom_desc').value=""; 
-            document.getElementById('custom_price').value=""; 
-            document.getElementById('custom_qty').value=1;
+            document.getElementById('custom_desc').value=""; document.getElementById('custom_price').value=""; document.getElementById('custom_qty').value=1;
         }
 
         function agregar(cod) {
             let p = App.inventario.find(x => x.cod === cod);
-            if (!p) { const ec = App.carrito.find(x => x.cod === cod); if(ec) p=ec; else return alert("Error de datos"); }
+            if (!p) { const ec = App.carrito.find(x => x.cod === cod); if(ec) p=ec; else return; }
             const iq = document.getElementById(`qty_${cod}`); let q = iq ? (parseInt(iq.value)||1) : 1;
             
-            const ec = App.carrito.find(x => x.cod === cod && !x.uuid);
+            const ec = App.carrito.find(x => x.cod === cod && !x.uuid); // Busca si existe producto de catálogo
             if(ec) { 
-                if(confirm(`Ya tienes ${ec.cant}. ¿Sumar ${q}?`)) { 
-                    ec.cant += q; actualizarCarrito(); mostrarToast(`➕ Sumados ${q}`); if(iq) iq.value=1; 
-                } 
+                // Usamos Toast en vez de confirm nativo para sumar
+                ec.cant += q; actualizarCarrito(); mostrarToast(`➕ Sumados ${q}`); if(iq) iq.value=1; 
             } else { 
                 App.carrito.push({ cod: p.cod, desc: p.desc, precio: p.precio, cant: q }); 
                 actualizarCarrito(); mostrarToast(`✅ Agregados ${q}`); animarTab(); if(iq) iq.value=1; 
             }
         }
 
-        function setDescuento(v) { document.getElementById('inputDescuento').value = v; actualizarCarrito(); }
+        function setDescuento(v) { document.getElementById('inputDescuento').value = v; verificarDescuento(v); }
+
+        function verificarDescuento(val) {
+            let disc = parseFloat(val) || 0;
+            if (disc > Config.maxDescuentoSinClave && !App.descuentoAutorizado) {
+                // 💡 REEMPLAZO DE PROMPT POR MODAL
+                UI.abrirInput("Autorización Requerida", "Ingrese clave para descuentos altos:", (clave) => {
+                    if (clave && clave.toLowerCase() === Config.clave) {
+                        App.descuentoAutorizado = true;
+                        actualizarCarrito(); // Recalcula con el descuento permitido
+                        mostrarToast("🔓 Autorizado");
+                    } else {
+                        mostrarToast("❌ Clave incorrecta");
+                        document.getElementById('inputDescuento').value = Config.maxDescuentoSinClave;
+                        actualizarCarrito();
+                    }
+                });
+                // Mientras tanto reseteamos visualmente hasta que confirme
+                return;
+            }
+            actualizarCarrito();
+        }
 
         function actualizarCarrito() {
-            const div = document.getElementById('budgetList'); 
-            const foot = document.getElementById('budgetFooter');
-            const discInput = document.getElementById('inputDescuento'); 
-            let disc = parseFloat(discInput.value)||0;
-            
+            const div = document.getElementById('budgetList'); const foot = document.getElementById('budgetFooter');
+            const discInput = document.getElementById('inputDescuento'); let disc = parseFloat(discInput.value)||0;
+
             if (disc > Config.maxDescuentoSinClave && !App.descuentoAutorizado) {
-                if (prompt("Clave:")?.toLowerCase() === Config.clave) App.descuentoAutorizado=true;
-                else { disc=Config.maxDescuentoSinClave; discInput.value=Config.maxDescuentoSinClave; }
+                disc = Config.maxDescuentoSinClave; 
+                discInput.value = disc;
             }
             
             const efBox = document.getElementById('efectivoBox');
@@ -512,14 +535,9 @@
             chips.forEach(b => { if(parseInt(b.innerText)===disc) b.classList.add('active-chip'); else b.classList.remove('active-chip'); });
 
             const badge = document.getElementById('cartBadge');
-            badge.innerText = App.carrito.length; 
-            badge.style.display = App.carrito.length > 0 ? 'block' : 'none';
+            badge.innerText = App.carrito.length; badge.style.display = App.carrito.length > 0 ? 'block' : 'none';
 
-            if(App.carrito.length===0) { 
-                div.innerHTML="<div style='text-align:center; padding:50px; color:#999;'>Vacío</div>"; 
-                foot.style.display='none'; 
-                guardarDatosLocales(); return; 
-            }
+            if(App.carrito.length===0) { div.innerHTML="<div style='text-align:center; padding:50px; color:#999;'>Vacío</div>"; foot.style.display='none'; guardarDatosLocales(); return; }
             
             foot.style.display='block'; div.innerHTML=""; let sub=0;
             
@@ -540,7 +558,6 @@
                     <div style="text-align:right; font-weight:800; color:var(--primary-blue); margin-top:5px;">$${formatMoney(p.precio*p.cant)}</div>
                 </div>`;
             }).join('');
-            
             div.innerHTML = htmlCart;
 
             const total = redondear500(sub * (1 - disc/100));
@@ -551,32 +568,27 @@
 
         function cambiarCant(i, v) { if(v<1)v=1; App.carrito[i].cant=v; actualizarCarrito(); }
         function borrar(i) { App.carrito.splice(i,1); actualizarCarrito(); }
-        function borrarTodo() { if(confirm("¿Borrar todo?")) { App.carrito=[]; document.getElementById('inputCliente').value=""; actualizarCarrito(); } }
+        
+        function borrarTodo() { 
+            if(App.carrito.length === 0) return;
+            // 💡 REEMPLAZO DE CONFIRM POR MODAL
+            UI.abrirConfirmacion("Borrar Pedido", "¿Estás seguro de vaciar todo el carrito?", () => {
+                App.carrito = []; 
+                document.getElementById('inputCliente').value = ""; 
+                actualizarCarrito();
+                mostrarToast("🗑️ Carrito vaciado");
+            });
+        }
 
-        // --- 7. PERSISTENCIA DE DATOS ---
+        // --- 7. PERSISTENCIA ---
         function guardarDatosLocales() { 
-            const data = { 
-                carrito: App.carrito, 
-                cliente: document.getElementById('inputCliente').value, 
-                descuento: document.getElementById('inputDescuento').value, 
-                auth: App.descuentoAutorizado 
-            };
+            const data = { carrito: App.carrito, cliente: document.getElementById('inputCliente').value, descuento: document.getElementById('inputDescuento').value, auth: App.descuentoAutorizado };
             localStorage.setItem(Config.keys.storage, JSON.stringify(data)); 
         }
-        
         function cargarDatosLocales() { 
             const d = JSON.parse(localStorage.getItem(Config.keys.storage)); 
-            if(d) { 
-                App.carrito = d.carrito||[]; 
-                document.getElementById('inputCliente').value = d.cliente||""; 
-                document.getElementById('inputDescuento').value = d.descuento||0; 
-                App.descuentoAutorizado = d.auth||false; 
-                actualizarCarrito(); 
-            }
-            try { 
-                const inv = localStorage.getItem(Config.keys.inventario); 
-                if(inv) App.inventario = JSON.parse(inv); 
-            } catch(e){}
+            if(d) { App.carrito = d.carrito||[]; document.getElementById('inputCliente').value = d.cliente||""; document.getElementById('inputDescuento').value = d.descuento||0; App.descuentoAutorizado = d.auth||false; actualizarCarrito(); }
+            try { const inv = localStorage.getItem(Config.keys.inventario); if(inv) App.inventario = JSON.parse(inv); } catch(e){}
         }
 
         // --- 8. LOGOS ---
@@ -614,7 +626,7 @@
             if(key==='logo2') { document.getElementById('imgLogo2').src=data; document.getElementById('imgLogo2_bud').src=data; }
         }
 
-        // --- 9. EXPORTACIÓN (PDF / IMAGEN / WHATSAPP) ---
+        // --- 9. EXPORTACIÓN ---
         function enviarWhatsapp() {
             if(App.carrito.length===0) return;
             const c = document.getElementById('inputCliente').value.trim(); const d = parseFloat(document.getElementById('inputDescuento').value)||0;
@@ -631,14 +643,17 @@
         }
 
         function generarPDF() {
-            if(App.carrito.length===0) return alert("Pedido vacío");
+            if(App.carrito.length===0) return mostrarToast("⚠️ Pedido vacío");
             const { jsPDF } = window.jspdf; const doc = new jsPDF();
             const l1 = getBase64FromImageElement('imgLogo1'); const l2 = getBase64FromImageElement('imgLogo2');
             if(l1) try { doc.addImage(l1, 'PNG', 14, 10, 40, 0); } catch(e){}
             if(l2) try { doc.addImage(l2, 'PNG', 155, 10, 40, 0); } catch(e){}
             doc.setFontSize(8); let yL = 35; 
-            doc.text("Rivadavia 1299 - Rivadavia 1340 - Sgo", 14, yL); doc.text("Alem 603 - La Banda", 14, yL+4); doc.text("Tel: 3855135474 / 3856281309 / 3854739612", 14, yL+8);
-            doc.text("Rivadavia 1270 - Sgo", 155, yL); doc.text("Bolivia (N) 158 - La Banda", 155, yL+4); doc.text("Tel: 3856258128 / 3854977332", 155, yL+8);
+            
+            // 💡 USO DE CONFIG.EMPRESA
+            doc.text(Config.empresa.linea1_izq, 14, yL); doc.text(Config.empresa.linea2_izq, 14, yL+4); doc.text(Config.empresa.linea3_izq, 14, yL+8);
+            doc.text(Config.empresa.linea1_der, 155, yL); doc.text(Config.empresa.linea2_der, 155, yL+4); doc.text(Config.empresa.linea3_der, 155, yL+8);
+            
             const c = document.getElementById('inputCliente').value.trim()||"Cliente Final";
             doc.setFontSize(18); doc.setFont(undefined,'bold'); doc.text("PRESUPUESTO", 105, 55, null,null,"center");
             doc.setFontSize(12); doc.setFont(undefined,'normal'); doc.text("Fecha: "+new Date().toLocaleDateString('es-AR'), 14, 65); doc.text("Cliente: "+c, 14, 72);
@@ -654,15 +669,18 @@
         }
 
         function generarImagen() {
-            if(App.carrito.length === 0) return alert("Pedido vacío");
+            if(App.carrito.length === 0) return mostrarToast("⚠️ Pedido vacío");
             const captureDiv = document.getElementById('captureArea');
             const cliente = document.getElementById('inputCliente').value.trim() || "Consumidor Final";
             const fecha = new Date().toLocaleDateString('es-AR');
             const l1 = getBase64FromImageElement('imgLogo1'); const l2 = getBase64FromImageElement('imgLogo2');
+            
+            // 💡 USO DE CONFIG.EMPRESA
             let html = `<div class="cap-header"><div>${l1 ? `<img src="${l1}" style="height:60px;">` : ''}</div><div style="text-align:right;">${l2 ? `<img src="${l2}" style="height:60px;">` : ''}</div></div><h2 style="text-align:center; margin:0 0 10px 0; color:#0D47A1;">PRESUPUESTO</h2><div style="font-size:12px; margin-bottom:15px; color:#555;"><strong>Fecha:</strong> ${fecha}<br><strong>Cliente:</strong> ${cliente}</div><table class="cap-table"><thead><tr><th>Cant</th><th>Detalle</th><th style="text-align:right;">Total</th></tr></thead><tbody>`;
             let subtotal = 0; App.carrito.forEach(p => { subtotal += p.precio * p.cant; html += `<tr><td>${p.cant}</td><td><div style="font-weight:bold;">${p.desc}</div><div style="font-size:10px; color:#666;">Cód: ${p.cod}</div></td><td style="text-align:right;">$${formatMoney(p.precio * p.cant)}</td></tr>`; });
             const desc = parseFloat(document.getElementById('inputDescuento').value) || 0; const total = redondear500(subtotal * (1 - desc/100));
-            html += `</tbody></table><div class="cap-total"><div style="font-size:12px;">Lista/Tarjeta: $${formatMoney(subtotal)}</div><div style="font-size:20px; font-weight:bold; color:#D32F2F; margin-top:5px;">Efectivo: $${formatMoney(total)}</div></div><div style="margin-top:20px; font-size:10px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:10px;">Chapamovil: Rivadavia 1299 - Alem 603 (LB)<br>Multicolor: Rivadavia 1270 - Bolivia (N) 158 (LB)</div>`;
+            html += `</tbody></table><div class="cap-total"><div style="font-size:12px;">Lista/Tarjeta: $${formatMoney(subtotal)}</div><div style="font-size:20px; font-weight:bold; color:#D32F2F; margin-top:5px;">Efectivo: $${formatMoney(total)}</div></div><div style="margin-top:20px; font-size:10px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:10px;">Chapamovil: ${Config.empresa.linea2_izq}<br>Multicolor: ${Config.empresa.linea2_der}</div>`;
+            
             captureDiv.innerHTML = html;
             html2canvas(captureDiv, { scale: 2 }).then(canvas => {
                 const imgData = canvas.toDataURL("image/jpeg", 0.9);
@@ -680,9 +698,7 @@
                 try { await navigator.share({ files: [file], title: 'Presupuesto', text: '' }); } catch (err) { console.log("Cancelado", err); }
             } else { alert("Tu navegador no soporta envío directo. Copia la imagen."); }
         }
-        function cerrarModalImg() { document.getElementById('imgModal').style.display = 'none'; }
-
-        // --- 10. UTILIDADES ---
+        
         function formatMoney(a) { return a.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function redondear500(v) { return Math.ceil(v/500)*500; }
         function mostrarToast(m) { const t=document.getElementById("toast"); t.innerText=m; t.className="show"; setTimeout(()=>t.className=t.className.replace("show",""), 1500); }
