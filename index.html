@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catálogo CHPMC V59</title>
+    <title>Catálogo CHPMC V60</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
@@ -278,9 +278,9 @@
             clave: 'chpmc',
             maxDescuentoSinClave: 15,
             archivoLista: 'Lista CHPMC.xlsx',
-            keys: { storage: 'datosAppV59', inventario: 'inventarioV59', logo1: 'logo1_v44', logo2: 'logo2_v44' },
+            keys: { storage: 'datosAppV60', inventario: 'inventarioV60', logo1: 'logo1_v44', logo2: 'logo2_v44' },
             itemsPorPagina: 20,
-            fallbackDiscount: 0.85, // 💡 15% de descuento por defecto si no hay precioCash
+            fallbackDiscount: 0.85,
             empresa: {
                 linea1_izq: "Rivadavia 1299 - Rivadavia 1340 - Sgo",
                 linea2_izq: "Alem 603 - La Banda",
@@ -298,12 +298,15 @@
             paginaActual: 1,
             descuentoAutorizado: false,
             
-            // 💡 Lógica centralizada de precios
             calcularPrecioCash: function(p) {
                 return p.precioCash > 0 ? p.precioCash : p.precio * Config.fallbackDiscount;
             },
 
-            // Generador de ID Seguro
+            // 💡 Función de redondeo centralizada
+            redondear500: function(v) { 
+                return Math.ceil(v / 500) * 500; 
+            },
+
             generateUUID: function() {
                 if (typeof crypto.randomUUID === 'function') return crypto.randomUUID();
                 return Date.now().toString(36) + Math.random().toString(36).substring(2);
@@ -440,7 +443,7 @@
             const inicio = (App.paginaActual - 1) * Config.itemsPorPagina;
             const items = App.resultadosBusqueda.slice(inicio, inicio + Config.itemsPorPagina);
             const htmlItems = items.map(p => {
-                const pCash = App.calcularPrecioCash(p); // 💡 Uso de función centralizada
+                const pCash = App.calcularPrecioCash(p);
                 return `<div class="card">
                     <div><span class="badge-code">${p.cod}</span></div><div class="prod-desc">${p.desc}</div>
                     <div class="dual-price-container">
@@ -477,11 +480,19 @@
 
         function agregar(cod) {
             let p = App.inventario.find(x => x.cod === cod);
-            if (!p) { const ec = App.carrito.find(x => x.cod === cod); if(ec) p=ec; else return; }
+            if (!p) return;
             const iq = document.getElementById(`qty_${cod}`); let q = iq ? (parseInt(iq.value)||1) : 1;
-            const ec = App.carrito.find(x => x.cod === cod && !x.uuid);
-            if(ec) { ec.cant += q; actualizarCarrito(); mostrarToast(`➕ Sumados ${q}`); if(iq) iq.value=1; } 
-            else { App.carrito.push({ cod: p.cod, desc: p.desc, precio: p.precio, cant: q }); actualizarCarrito(); mostrarToast(`✅ Agregados ${q}`); animarTab(); if(iq) iq.value=1; }
+            
+            // 💡 Buscamos ítems del catálogo que NO tengan propiedades de "personalizado"
+            const ec = App.carrito.find(x => x.cod === cod && x.cod !== '00');
+            
+            if(ec) { 
+                ec.cant += q; actualizarCarrito(); mostrarToast(`➕ Sumados ${q}`); if(iq) iq.value=1; 
+            } else { 
+                // 💡 Ahora TODO ítem recibe UUID al entrar al carrito
+                App.carrito.push({ ...p, cant: q, uuid: App.generateUUID() }); 
+                actualizarCarrito(); mostrarToast(`✅ Agregados ${q}`); animarTab(); if(iq) iq.value=1; 
+            }
         }
 
         function setDescuento(v) { document.getElementById('inputDescuento').value = v; verificarDescuento(v); }
@@ -509,7 +520,6 @@
             const chips = document.querySelectorAll('.chip-btn');
             chips.forEach(b => { if(parseInt(b.innerText)===disc) b.classList.add('active-chip'); else b.classList.remove('active-chip'); });
 
-            // 💡 Badge por Cantidad Total
             const badge = document.getElementById('cartBadge');
             const totalUnidades = App.carrito.reduce((acc, p) => acc + p.cant, 0);
             badge.innerText = totalUnidades; badge.style.display = totalUnidades > 0 ? 'block' : 'none';
@@ -529,7 +539,7 @@
                         </div></div><div style="text-align:right; font-weight:800; color:var(--primary-blue); margin-top:5px;">$${formatMoney(p.precio*p.cant)}</div></div>`;
             }).join('');
             div.innerHTML = htmlCart;
-            const total = redondear500(sub * (1 - disc/100));
+            const total = App.redondear500(sub * (1 - disc/100));
             document.getElementById('txtSubtotal').innerText = "$" + formatMoney(sub); 
             document.getElementById('txtTotalFinal').innerText = "$" + formatMoney(total);
             guardarDatosLocales();
@@ -541,7 +551,12 @@
         function borrarTodo() { 
             if(App.carrito.length === 0) return;
             UI.abrirConfirmacion("🗑️ Vaciar pedido", "¿Desea borrar todos los productos del pedido?", () => {
-                App.carrito = []; document.getElementById('inputCliente').value = ""; actualizarCarrito(); mostrarToast("🗑️ Vaciado");
+                App.carrito = []; 
+                document.getElementById('inputCliente').value = ""; 
+                // 💡 Reset de seguridad de la autorización
+                App.descuentoAutorizado = false;
+                actualizarCarrito(); 
+                mostrarToast("🗑️ Vaciado y desautorizado");
             });
         }
 
@@ -556,10 +571,8 @@
         }
 
         function toggleLogoPanel() { const p = document.getElementById('logoConfigPanel'); p.style.display = (p.style.display==='block') ? 'none' : 'block'; }
-        
-        // 💡 Logo Config con Modales Propios
         function borrarLogosLocales() { 
-            UI.abrirConfirmacion("🗑️ Borrar Logos", "¿Desea eliminar los logos personalizados y volver a los originales?", () => {
+            UI.abrirConfirmacion("🗑️ Borrar Logos", "¿Desea eliminar los logos personalizados?", () => {
                 localStorage.removeItem(Config.keys.logo1); localStorage.removeItem(Config.keys.logo2); location.reload(); 
             });
         }
@@ -579,7 +592,7 @@
                             if(keyName === 'logo2') localStorage.setItem(Config.keys.logo2, dataUrl);
                             aplicarLogos(keyName, dataUrl);
                             mostrarToast("✅ Logo guardado");
-                        } catch (error) { UI.abrirConfirmacion("Error", "Memoria llena, no se pudo guardar el logo.", ()=>{}); }
+                        } catch (error) { UI.abrirConfirmacion("Error", "No se pudo guardar el logo.", ()=>{}); }
                     };
                     img.src = e.target.result;
                 };
@@ -598,7 +611,7 @@
         function enviarWhatsapp() {
             if(App.carrito.length===0) return;
             const c = document.getElementById('inputCliente').value.trim(); const d = parseFloat(document.getElementById('inputDescuento').value)||0;
-            let sub=0; App.carrito.forEach(p=>sub+=p.precio*p.cant); const tot = redondear500(sub*(1-d/100));
+            let sub=0; App.carrito.forEach(p=>sub+=p.precio*p.cant); const tot = App.redondear500(sub*(1-d/100));
             let m = c ? `Hola *${c}*, ` : "Hola, "; m += "pedido:\n\n";
             App.carrito.forEach(p => m+=`▪ ${p.cant} x *[${p.cod}]* ${p.desc}\n`);
             m+=`\n*Tarjeta:* $${formatMoney(sub)}\n*Efectivo:* $${formatMoney(tot)}`;
@@ -626,7 +639,7 @@
             const body = App.carrito.map(p=>[p.cant, p.cod, p.desc, "$"+formatMoney(p.precio), "$"+formatMoney(p.precio*p.cant)]);
             doc.autoTable({ startY: 80, head: [['Cant', 'Cód', 'Descripción', 'Unit', 'Total']], body: body, theme: 'striped', headStyles: { fillColor: [13, 71, 161] } });
             let sub=0; App.carrito.forEach(p=>sub+=p.precio*p.cant);
-            const d = parseFloat(document.getElementById('inputDescuento').value)||0; const tot = redondear500(sub*(1-d/100));
+            const d = parseFloat(document.getElementById('inputDescuento').value)||0; const tot = App.redondear500(sub*(1-d/100));
             let y = doc.lastAutoTable.finalY + 10;
             doc.setFontSize(11); doc.text("Precio Lista / Tarjeta: $"+formatMoney(sub), 195, y, null,null,"right");
             y+=10; doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.text("Efectivo/Transf: $"+formatMoney(tot), 195, y, null,null,"right");
@@ -642,7 +655,7 @@
             const l1 = getBase64FromImageElement('imgLogo1'); const l2 = getBase64FromImageElement('imgLogo2');
             let html = `<div class="cap-header"><div>${l1 ? `<img src="${l1}" style="height:60px;">` : ''}</div><div style="text-align:right;">${l2 ? `<img src="${l2}" style="height:60px;">` : ''}</div></div><h2 style="text-align:center; margin:0 0 10px 0; color:#0D47A1;">PRESUPUESTO</h2><div style="font-size:12px; margin-bottom:15px; color:#555;"><strong>Fecha:</strong> ${fecha}<br><strong>Cliente:</strong> ${cliente}</div><table class="cap-table"><thead><tr><th>Cant</th><th>Detalle</th><th style="text-align:right;">Total</th></tr></thead><tbody>`;
             let subtotal = 0; App.carrito.forEach(p => { subtotal += p.precio * p.cant; html += `<tr><td>${p.cant}</td><td><div style="font-weight:bold;">${p.desc}</div><div style="font-size:10px; color:#666;">Cód: ${p.cod}</div></td><td style="text-align:right;">$${formatMoney(p.precio * p.cant)}</td></tr>`; });
-            const desc = parseFloat(document.getElementById('inputDescuento').value) || 0; const total = redondear500(subtotal * (1 - desc/100));
+            const desc = parseFloat(document.getElementById('inputDescuento').value) || 0; const total = App.redondear500(subtotal * (1 - desc/100));
             html += `</tbody></table><div class="cap-total"><div style="font-size:12px;">Lista/Tarjeta: $${formatMoney(subtotal)}</div><div style="font-size:20px; font-weight:bold; color:#D32F2F; margin-top:5px;">Efectivo: $${formatMoney(total)}</div></div><div style="margin-top:20px; font-size:10px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:10px;">Sucursales: Rivadavia 1299 - Rivadavia 1270 - Alem 603</div>`;
             captureDiv.innerHTML = html;
             html2canvas(captureDiv, { scale: 2 }).then(canvas => {
@@ -661,8 +674,6 @@
         }
         
         function formatMoney(a) { return a.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
-        function redondear500(v) { return Math.ceil(v/500)*500; }
-        function mostrarToast(m) { const t=document.getElementById("toast"); t.innerText=m; t.className="show"; setTimeout(()=>t.className=t.className.replace("show",""), 1500); }
         function cambiarVista(v) { document.getElementById('viewCatalog').style.display=v==='catalog'?'block':'none'; document.getElementById('viewBudget').style.display=v==='budget'?'block':'none'; document.getElementById('navCat').className=v==='catalog'?'nav-item active':'nav-item'; document.getElementById('navBud').className=v==='budget'?'nav-item active':'nav-item'; window.scrollTo(0,0); }
         function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
         window.onscroll = () => document.getElementById("btnScrollTop").style.display = (document.body.scrollTop>300||document.documentElement.scrollTop>300)?"flex":"none";
