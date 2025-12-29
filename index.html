@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catálogo CHPMC V58</title>
+    <title>Catálogo CHPMC V59</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
@@ -71,7 +71,6 @@
         .qty-btn-adjust, .qty-btn-mini { background: #e0e0e0; border: none; padding: 8px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; line-height: 1; height: 38px; display: flex; align-items: center; justify-content: center; }
         .qty-btn-mini { padding: 8px; width: 38px; height: 38px; background: #E3F2FD; color: var(--primary-blue); }
         .btn-add { background-color: var(--primary-blue); color: var(--white); border: none; padding: 10px 22px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 13px; letter-spacing: 0.5px; box-shadow: 0 2px 5px rgba(13, 71, 161, 0.3); }
-        .btn-add:active { transform: scale(0.98); }
         
         /* FOOTER & TOTALES */
         .footer { background: var(--white); padding: 15px 15px; border-top: 1px solid #e0e0e0; margin-top: 10px; border-radius: 20px 20px 0 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
@@ -105,7 +104,7 @@
         .nav-badge { position: absolute; top: 5px; right: calc(50% - 15px); background-color: var(--accent-red); color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold; min-width: 14px; text-align: center; display: none; z-index: 10; }
         .btn-del { width: 32px; height: 32px; background: #ffebee; color: var(--accent-red); border: none; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        /* MODAL GENÉRICO (Nuevo V58) */
+        /* MODALES */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 85%; max-width: 320px; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: popIn 0.2s ease; }
         .modal-title { font-size: 18px; font-weight: bold; color: var(--primary-blue); margin-bottom: 10px; }
@@ -114,20 +113,20 @@
         .modal-actions { display: flex; gap: 10px; justify-content: center; }
         .btn-modal-cancel { flex: 1; padding: 10px; border: none; background: #f5f5f5; color: #666; font-weight: bold; border-radius: 6px; cursor: pointer; }
         .btn-modal-confirm { flex: 1; padding: 10px; border: none; background: var(--primary-blue); color: white; font-weight: bold; border-radius: 6px; cursor: pointer; }
-        @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
-
-        /* MODAL IMAGEN ESPECÍFICO */
+        
         #imgModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; align-items: center; justify-content: center; flex-direction: column; padding: 20px; box-sizing: border-box; }
         #imgPreview { max-width: 95%; max-height: 70%; border-radius: 8px; box-shadow: 0 0 20px rgba(255,255,255,0.1); margin-bottom: 15px; }
+
+        @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+        @media (max-width: 600px) { .logos-bar { padding: 10px 5px; gap: 10px; } .brand-logo { height: 50px; max-width: 40vw; } .config-btn { font-size: 16px; top: 2px; right: 2px; } }
+        
         #customItemCard .card { border: 2px solid var(--accent-red); border-left: 4px solid var(--accent-red); }
-        #customItemCard .client-input { border: 1px solid #cfd8dc; padding: 8px; box-sizing: border-box; }
         #captureArea { position: absolute; left: -9999px; top: 0; width: 550px; background: white; padding: 20px; font-family: sans-serif; border: 1px solid #ccc; }
         .cap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #D32F2F; padding-bottom: 15px; margin-bottom: 15px; }
         .cap-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         .cap-table th { background: #0D47A1; color: white; padding: 8px; font-size: 12px; text-align: left; }
         .cap-table td { border-bottom: 1px solid #eee; padding: 8px; font-size: 12px; color: #333; }
         .cap-total { text-align: right; margin-top: 20px; }
-        @media (max-width: 600px) { .logos-bar { padding: 10px 5px; gap: 10px; } .brand-logo { height: 50px; max-width: 40vw; } .config-btn { font-size: 16px; top: 2px; right: 2px; } }
     </style>
 </head>
 <body>
@@ -140,7 +139,6 @@
             <button class="btn-modal-share" onclick="compartirNativo()" style="flex:1; padding:12px; border-radius:8px; border:none; font-weight:bold; cursor:pointer; font-size:14px; background:#25D366; color:white;">📤 Enviar a WhatsApp</button>
             <button class="btn-modal-close" onclick="document.getElementById('imgModal').style.display='none'" style="flex:0.5; padding:12px; border-radius:8px; border:none; font-weight:bold; cursor:pointer; font-size:14px; background:#ff5252; color:white;">Cerrar</button>
         </div>
-        <div style="color:#aaa; margin-top:15px; font-size:11px; text-align:center;">(Si no funciona, mantén presionado para compartir)</div>
     </div>
 
     <div id="genericModal" class="modal-overlay">
@@ -276,14 +274,13 @@
     </nav>
 
     <script>
-        // --- 1. CONFIGURACIÓN ---
         const Config = {
             clave: 'chpmc',
             maxDescuentoSinClave: 15,
             archivoLista: 'Lista CHPMC.xlsx',
-            keys: { storage: 'datosAppV58', inventario: 'inventarioV58', logo1: 'logo1_v44', logo2: 'logo2_v44' },
+            keys: { storage: 'datosAppV59', inventario: 'inventarioV59', logo1: 'logo1_v44', logo2: 'logo2_v44' },
             itemsPorPagina: 20,
-            // DATOS DE LA EMPRESA (Editables aquí)
+            fallbackDiscount: 0.85, // 💡 15% de descuento por defecto si no hay precioCash
             empresa: {
                 linea1_izq: "Rivadavia 1299 - Rivadavia 1340 - Sgo",
                 linea2_izq: "Alem 603 - La Banda",
@@ -299,10 +296,20 @@
             carrito: [],
             resultadosBusqueda: [],
             paginaActual: 1,
-            descuentoAutorizado: false
+            descuentoAutorizado: false,
+            
+            // 💡 Lógica centralizada de precios
+            calcularPrecioCash: function(p) {
+                return p.precioCash > 0 ? p.precioCash : p.precio * Config.fallbackDiscount;
+            },
+
+            // Generador de ID Seguro
+            generateUUID: function() {
+                if (typeof crypto.randomUUID === 'function') return crypto.randomUUID();
+                return Date.now().toString(36) + Math.random().toString(36).substring(2);
+            }
         };
 
-        // --- 2. SISTEMA DE MODALES (UI PROPIA) ---
         const UI = {
             modal: document.getElementById('genericModal'),
             title: document.getElementById('genModalTitle'),
@@ -326,28 +333,19 @@
                 this.input.value = '';
                 this.modal.style.display = 'flex';
                 this.input.focus();
-                
-                // Confirmar con Enter
-                this.input.onkeypress = (e) => {
-                    if (e.key === 'Enter') { onConfirm(this.input.value); this.cerrarModal(); }
-                };
-                
+                this.input.onkeypress = (e) => { if (e.key === 'Enter') { onConfirm(this.input.value); this.cerrarModal(); } };
                 this.confirmBtn.onclick = () => { onConfirm(this.input.value); this.cerrarModal(); };
             },
 
-            cerrarModal: function() {
-                this.modal.style.display = 'none';
-            }
+            cerrarModal: function() { this.modal.style.display = 'none'; }
         };
 
-        // --- 3. INICIALIZACIÓN ---
         window.onload = function() { 
             cargarDatosLocales(); 
             recuperarLogos();
             if (App.inventario.length === 0) intentarCargaNube(); else document.getElementById('uploadSection').style.display = 'none';
         };
 
-        // --- 4. CARGA DE DATOS ---
         function intentarCargaNube() {
             const lblFile = document.getElementById('lblFile');
             const manualInput = document.getElementById('lblManualInput');
@@ -408,7 +406,6 @@
             App.resultadosBusqueda = App.inventario; App.paginaActual = 1; renderizarPagina();
         }
 
-        // --- 5. BÚSQUEDA ---
         document.getElementById("searchInput").addEventListener("keypress", function(e) { if (e.key === "Enter") { e.preventDefault(); iniciarBusqueda(); } });
         function checkInput() { document.getElementById('btnClear').style.display = document.getElementById('searchInput').value.length > 0 ? 'block' : 'none'; }
         function limpiarBuscador() { const i = document.getElementById('searchInput'); i.value = ""; i.focus(); checkInput(); iniciarBusqueda(); }
@@ -443,7 +440,7 @@
             const inicio = (App.paginaActual - 1) * Config.itemsPorPagina;
             const items = App.resultadosBusqueda.slice(inicio, inicio + Config.itemsPorPagina);
             const htmlItems = items.map(p => {
-                const pCash = p.precioCash > 0 ? p.precioCash : p.precio * 0.85;
+                const pCash = App.calcularPrecioCash(p); // 💡 Uso de función centralizada
                 return `<div class="card">
                     <div><span class="badge-code">${p.cod}</span></div><div class="prod-desc">${p.desc}</div>
                     <div class="dual-price-container">
@@ -469,14 +466,11 @@
         function ajustarCat(c, d) { const i = document.getElementById(`qty_${c}`); if(!i)return; let n = (parseInt(i.value)||1)+d; if(n<1)n=1; i.value = n; }
         function ajustarCantidadComodin(d) { const i = document.getElementById('custom_qty'); if(!i)return; let n = (parseInt(i.value)||1)+d; if(n<1)n=1; i.value = n; }
 
-        // --- 6. CARRITO (CON UUID) ---
         function agregarCustom() {
             const d = document.getElementById('custom_desc').value.trim(); 
             const p = parseFloat(document.getElementById('custom_price').value)||0; const q = parseInt(document.getElementById('custom_qty').value)||1;
             if (d.length < 3 || p <= 0 || q < 1) return mostrarToast("⚠️ Datos inválidos");
-            
-            // 💡 UUID: crypto.randomUUID()
-            App.carrito.push({ cod: '00', desc: d, precio: p, cant: q, uuid: crypto.randomUUID() }); 
+            App.carrito.push({ cod: '00', desc: d, precio: p, cant: q, uuid: App.generateUUID() }); 
             actualizarCarrito(); mostrarToast("✅ Agregado");
             document.getElementById('custom_desc').value=""; document.getElementById('custom_price').value=""; document.getElementById('custom_qty').value=1;
         }
@@ -485,15 +479,9 @@
             let p = App.inventario.find(x => x.cod === cod);
             if (!p) { const ec = App.carrito.find(x => x.cod === cod); if(ec) p=ec; else return; }
             const iq = document.getElementById(`qty_${cod}`); let q = iq ? (parseInt(iq.value)||1) : 1;
-            
-            const ec = App.carrito.find(x => x.cod === cod && !x.uuid); // Busca si existe producto de catálogo
-            if(ec) { 
-                // Usamos Toast en vez de confirm nativo para sumar
-                ec.cant += q; actualizarCarrito(); mostrarToast(`➕ Sumados ${q}`); if(iq) iq.value=1; 
-            } else { 
-                App.carrito.push({ cod: p.cod, desc: p.desc, precio: p.precio, cant: q }); 
-                actualizarCarrito(); mostrarToast(`✅ Agregados ${q}`); animarTab(); if(iq) iq.value=1; 
-            }
+            const ec = App.carrito.find(x => x.cod === cod && !x.uuid);
+            if(ec) { ec.cant += q; actualizarCarrito(); mostrarToast(`➕ Sumados ${q}`); if(iq) iq.value=1; } 
+            else { App.carrito.push({ cod: p.cod, desc: p.desc, precio: p.precio, cant: q }); actualizarCarrito(); mostrarToast(`✅ Agregados ${q}`); animarTab(); if(iq) iq.value=1; }
         }
 
         function setDescuento(v) { document.getElementById('inputDescuento').value = v; verificarDescuento(v); }
@@ -501,19 +489,10 @@
         function verificarDescuento(val) {
             let disc = parseFloat(val) || 0;
             if (disc > Config.maxDescuentoSinClave && !App.descuentoAutorizado) {
-                // 💡 REEMPLAZO DE PROMPT POR MODAL
-                UI.abrirInput("Autorización Requerida", "Ingrese clave para descuentos altos:", (clave) => {
-                    if (clave && clave.toLowerCase() === Config.clave) {
-                        App.descuentoAutorizado = true;
-                        actualizarCarrito(); // Recalcula con el descuento permitido
-                        mostrarToast("🔓 Autorizado");
-                    } else {
-                        mostrarToast("❌ Clave incorrecta");
-                        document.getElementById('inputDescuento').value = Config.maxDescuentoSinClave;
-                        actualizarCarrito();
-                    }
+                UI.abrirInput("🔓 Autorización", "Ingrese clave para descuentos altos:", (clave) => {
+                    if (clave && clave.toLowerCase() === Config.clave) { App.descuentoAutorizado = true; actualizarCarrito(); mostrarToast("🔓 Autorizado"); } 
+                    else { mostrarToast("❌ Clave incorrecta"); document.getElementById('inputDescuento').value = Config.maxDescuentoSinClave; actualizarCarrito(); }
                 });
-                // Mientras tanto reseteamos visualmente hasta que confirme
                 return;
             }
             actualizarCarrito();
@@ -523,43 +502,33 @@
             const div = document.getElementById('budgetList'); const foot = document.getElementById('budgetFooter');
             const discInput = document.getElementById('inputDescuento'); let disc = parseFloat(discInput.value)||0;
 
-            if (disc > Config.maxDescuentoSinClave && !App.descuentoAutorizado) {
-                disc = Config.maxDescuentoSinClave; 
-                discInput.value = disc;
-            }
-            
+            if (disc > Config.maxDescuentoSinClave && !App.descuentoAutorizado) { disc = Config.maxDescuentoSinClave; discInput.value = disc; }
             const efBox = document.getElementById('efectivoBox');
             if(App.descuentoAutorizado) efBox.classList.add('authorized'); else efBox.classList.remove('authorized');
 
             const chips = document.querySelectorAll('.chip-btn');
             chips.forEach(b => { if(parseInt(b.innerText)===disc) b.classList.add('active-chip'); else b.classList.remove('active-chip'); });
 
+            // 💡 Badge por Cantidad Total
             const badge = document.getElementById('cartBadge');
-            badge.innerText = App.carrito.length; badge.style.display = App.carrito.length > 0 ? 'block' : 'none';
+            const totalUnidades = App.carrito.reduce((acc, p) => acc + p.cant, 0);
+            badge.innerText = totalUnidades; badge.style.display = totalUnidades > 0 ? 'block' : 'none';
 
             if(App.carrito.length===0) { div.innerHTML="<div style='text-align:center; padding:50px; color:#999;'>Vacío</div>"; foot.style.display='none'; guardarDatosLocales(); return; }
-            
             foot.style.display='block'; div.innerHTML=""; let sub=0;
-            
             const htmlCart = App.carrito.map((p, i) => {
                 sub += p.precio * p.cant;
                 return `<div class="card budget-card">
-                    <div style="font-weight:600;">${p.desc}</div>
-                    <div style="font-size:12px; color:#666;">Cód: ${p.cod}</div>
-                    <div class="controls-row">
-                        <div style="color:#555;">$${formatMoney(p.precio)}</div>
+                    <div style="font-weight:600;">${p.desc}</div><div style="font-size:12px; color:#666;">Cód: ${p.cod}</div>
+                    <div class="controls-row"><div style="color:#555;">$${formatMoney(p.precio)}</div>
                         <div style="display:flex; gap:5px;">
                             <button class="qty-btn-mini" onclick="cambiarCant(${i}, App.carrito[${i}].cant-1)">-</button>
                             <input class="qty-input" value="${p.cant}" readonly>
                             <button class="qty-btn-mini" onclick="cambiarCant(${i}, App.carrito[${i}].cant+1)">+</button>
                             <button class="btn-del" onclick="borrar(${i})">✖</button>
-                        </div>
-                    </div>
-                    <div style="text-align:right; font-weight:800; color:var(--primary-blue); margin-top:5px;">$${formatMoney(p.precio*p.cant)}</div>
-                </div>`;
+                        </div></div><div style="text-align:right; font-weight:800; color:var(--primary-blue); margin-top:5px;">$${formatMoney(p.precio*p.cant)}</div></div>`;
             }).join('');
             div.innerHTML = htmlCart;
-
             const total = redondear500(sub * (1 - disc/100));
             document.getElementById('txtSubtotal').innerText = "$" + formatMoney(sub); 
             document.getElementById('txtTotalFinal').innerText = "$" + formatMoney(total);
@@ -571,16 +540,11 @@
         
         function borrarTodo() { 
             if(App.carrito.length === 0) return;
-            // 💡 REEMPLAZO DE CONFIRM POR MODAL
-            UI.abrirConfirmacion("Borrar Pedido", "¿Estás seguro de vaciar todo el carrito?", () => {
-                App.carrito = []; 
-                document.getElementById('inputCliente').value = ""; 
-                actualizarCarrito();
-                mostrarToast("🗑️ Carrito vaciado");
+            UI.abrirConfirmacion("🗑️ Vaciar pedido", "¿Desea borrar todos los productos del pedido?", () => {
+                App.carrito = []; document.getElementById('inputCliente').value = ""; actualizarCarrito(); mostrarToast("🗑️ Vaciado");
             });
         }
 
-        // --- 7. PERSISTENCIA ---
         function guardarDatosLocales() { 
             const data = { carrito: App.carrito, cliente: document.getElementById('inputCliente').value, descuento: document.getElementById('inputDescuento').value, auth: App.descuentoAutorizado };
             localStorage.setItem(Config.keys.storage, JSON.stringify(data)); 
@@ -591,9 +555,14 @@
             try { const inv = localStorage.getItem(Config.keys.inventario); if(inv) App.inventario = JSON.parse(inv); } catch(e){}
         }
 
-        // --- 8. LOGOS ---
         function toggleLogoPanel() { const p = document.getElementById('logoConfigPanel'); p.style.display = (p.style.display==='block') ? 'none' : 'block'; }
-        function borrarLogosLocales() { localStorage.removeItem(Config.keys.logo1); localStorage.removeItem(Config.keys.logo2); alert("Logos borrados."); location.reload(); }
+        
+        // 💡 Logo Config con Modales Propios
+        function borrarLogosLocales() { 
+            UI.abrirConfirmacion("🗑️ Borrar Logos", "¿Desea eliminar los logos personalizados y volver a los originales?", () => {
+                localStorage.removeItem(Config.keys.logo1); localStorage.removeItem(Config.keys.logo2); location.reload(); 
+            });
+        }
         function cargarLogoLocal(input, keyName) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -609,8 +578,8 @@
                             if(keyName === 'logo1') localStorage.setItem(Config.keys.logo1, dataUrl);
                             if(keyName === 'logo2') localStorage.setItem(Config.keys.logo2, dataUrl);
                             aplicarLogos(keyName, dataUrl);
-                            alert("✅ Logo guardado.");
-                        } catch (error) { alert("❌ Memoria llena."); }
+                            mostrarToast("✅ Logo guardado");
+                        } catch (error) { UI.abrirConfirmacion("Error", "Memoria llena, no se pudo guardar el logo.", ()=>{}); }
                     };
                     img.src = e.target.result;
                 };
@@ -626,7 +595,6 @@
             if(key==='logo2') { document.getElementById('imgLogo2').src=data; document.getElementById('imgLogo2_bud').src=data; }
         }
 
-        // --- 9. EXPORTACIÓN ---
         function enviarWhatsapp() {
             if(App.carrito.length===0) return;
             const c = document.getElementById('inputCliente').value.trim(); const d = parseFloat(document.getElementById('inputDescuento').value)||0;
@@ -634,7 +602,8 @@
             let m = c ? `Hola *${c}*, ` : "Hola, "; m += "pedido:\n\n";
             App.carrito.forEach(p => m+=`▪ ${p.cant} x *[${p.cod}]* ${p.desc}\n`);
             m+=`\n*Tarjeta:* $${formatMoney(sub)}\n*Efectivo:* $${formatMoney(tot)}`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(m)}`); borrarTodo();
+            window.open(`https://wa.me/?text=${encodeURIComponent(m)}`);
+            UI.abrirConfirmacion("📦 Pedido enviado", "¿Desea vaciar el carrito ahora?", () => { borrarTodo(); });
         }
 
         function getBase64FromImageElement(id) {
@@ -649,11 +618,8 @@
             if(l1) try { doc.addImage(l1, 'PNG', 14, 10, 40, 0); } catch(e){}
             if(l2) try { doc.addImage(l2, 'PNG', 155, 10, 40, 0); } catch(e){}
             doc.setFontSize(8); let yL = 35; 
-            
-            // 💡 USO DE CONFIG.EMPRESA
             doc.text(Config.empresa.linea1_izq, 14, yL); doc.text(Config.empresa.linea2_izq, 14, yL+4); doc.text(Config.empresa.linea3_izq, 14, yL+8);
             doc.text(Config.empresa.linea1_der, 155, yL); doc.text(Config.empresa.linea2_der, 155, yL+4); doc.text(Config.empresa.linea3_der, 155, yL+8);
-            
             const c = document.getElementById('inputCliente').value.trim()||"Cliente Final";
             doc.setFontSize(18); doc.setFont(undefined,'bold'); doc.text("PRESUPUESTO", 105, 55, null,null,"center");
             doc.setFontSize(12); doc.setFont(undefined,'normal'); doc.text("Fecha: "+new Date().toLocaleDateString('es-AR'), 14, 65); doc.text("Cliente: "+c, 14, 72);
@@ -674,29 +640,24 @@
             const cliente = document.getElementById('inputCliente').value.trim() || "Consumidor Final";
             const fecha = new Date().toLocaleDateString('es-AR');
             const l1 = getBase64FromImageElement('imgLogo1'); const l2 = getBase64FromImageElement('imgLogo2');
-            
-            // 💡 USO DE CONFIG.EMPRESA
             let html = `<div class="cap-header"><div>${l1 ? `<img src="${l1}" style="height:60px;">` : ''}</div><div style="text-align:right;">${l2 ? `<img src="${l2}" style="height:60px;">` : ''}</div></div><h2 style="text-align:center; margin:0 0 10px 0; color:#0D47A1;">PRESUPUESTO</h2><div style="font-size:12px; margin-bottom:15px; color:#555;"><strong>Fecha:</strong> ${fecha}<br><strong>Cliente:</strong> ${cliente}</div><table class="cap-table"><thead><tr><th>Cant</th><th>Detalle</th><th style="text-align:right;">Total</th></tr></thead><tbody>`;
             let subtotal = 0; App.carrito.forEach(p => { subtotal += p.precio * p.cant; html += `<tr><td>${p.cant}</td><td><div style="font-weight:bold;">${p.desc}</div><div style="font-size:10px; color:#666;">Cód: ${p.cod}</div></td><td style="text-align:right;">$${formatMoney(p.precio * p.cant)}</td></tr>`; });
             const desc = parseFloat(document.getElementById('inputDescuento').value) || 0; const total = redondear500(subtotal * (1 - desc/100));
-            html += `</tbody></table><div class="cap-total"><div style="font-size:12px;">Lista/Tarjeta: $${formatMoney(subtotal)}</div><div style="font-size:20px; font-weight:bold; color:#D32F2F; margin-top:5px;">Efectivo: $${formatMoney(total)}</div></div><div style="margin-top:20px; font-size:10px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:10px;">Chapamovil: ${Config.empresa.linea2_izq}<br>Multicolor: ${Config.empresa.linea2_der}</div>`;
-            
+            html += `</tbody></table><div class="cap-total"><div style="font-size:12px;">Lista/Tarjeta: $${formatMoney(subtotal)}</div><div style="font-size:20px; font-weight:bold; color:#D32F2F; margin-top:5px;">Efectivo: $${formatMoney(total)}</div></div><div style="margin-top:20px; font-size:10px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:10px;">Sucursales: Rivadavia 1299 - Rivadavia 1270 - Alem 603</div>`;
             captureDiv.innerHTML = html;
             html2canvas(captureDiv, { scale: 2 }).then(canvas => {
-                const imgData = canvas.toDataURL("image/jpeg", 0.9);
-                document.getElementById('imgPreview').src = imgData;
+                document.getElementById('imgPreview').src = canvas.toDataURL("image/jpeg", 0.9);
                 document.getElementById('imgModal').style.display = 'flex';
             });
         }
 
         async function compartirNativo() {
             const imgElement = document.getElementById('imgPreview');
-            const base64URL = imgElement.src;
-            const res = await fetch(base64URL); const blob = await res.blob();
+            const res = await fetch(imgElement.src); const blob = await res.blob();
             const file = new File([blob], "presupuesto.jpg", { type: "image/jpeg" });
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                try { await navigator.share({ files: [file], title: 'Presupuesto', text: '' }); } catch (err) { console.log("Cancelado", err); }
-            } else { alert("Tu navegador no soporta envío directo. Copia la imagen."); }
+                try { await navigator.share({ files: [file], title: 'Presupuesto', text: '' }); } catch (err) { console.log("Cancelado"); }
+            } else { alert("Navegador no soportado. Mantén pulsada la imagen."); }
         }
         
         function formatMoney(a) { return a.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
