@@ -3,7 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Presupuestador V55 (Fecha Actualización)</title>
+    <title>Catálogo CHPMC</title> <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <meta name="theme-color" content="#0D47A1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="CHPMC">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -21,7 +27,7 @@
             --price-cash-color: #2E7D32; 
         }
 
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding-bottom: 120px; background-color: var(--bg-light); color: var(--text-dark); scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding-bottom: 120px; background-color: var(--bg-light); color: var(--text-dark); scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
         
         header { background-color: var(--primary-blue); color: var(--white); padding: 0 0 15px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         
@@ -37,7 +43,6 @@
         .header-content { padding: 0 15px; text-align: center; }
         h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
         
-        /* 💡 ESTILO PARA LA FECHA DE ACTUALIZACIÓN */
         .update-badge { font-size: 11px; color: rgba(255,255,255,0.8); margin-bottom: 8px; display: block; font-weight: 500; }
 
         .search-container { display: flex; background: var(--white); border-radius: 8px; padding: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); align-items: center; }
@@ -109,15 +114,13 @@
         
         .nav-badge { position: absolute; top: 5px; right: calc(50% - 15px); background-color: var(--accent-red); color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold; min-width: 14px; text-align: center; display: none; z-index: 10; }
 
-        /* MODAL IMAGEN MEJORADO */
+        /* MODAL IMAGEN */
         #imgModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 5000; align-items: center; justify-content: center; flex-direction: column; padding: 20px; box-sizing: border-box; }
         #imgPreview { max-width: 95%; max-height: 70%; border-radius: 8px; box-shadow: 0 0 20px rgba(255,255,255,0.1); margin-bottom: 15px; }
         .modal-controls { display: flex; gap: 15px; width: 100%; max-width: 400px; justify-content: center; }
-        
         .btn-modal-share { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; background: #25D366; color: white; display: flex; align-items: center; justify-content: center; gap: 5px; }
         .btn-modal-close { flex: 0.5; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; background: #ff5252; color: white; }
 
-        /* AREA DE CAPTURA OCULTA */
         #captureArea { position: absolute; left: -9999px; top: 0; width: 550px; background: white; padding: 20px; font-family: sans-serif; border: 1px solid #ccc; }
         .cap-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #D32F2F; padding-bottom: 15px; margin-bottom: 15px; }
         .cap-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
@@ -131,7 +134,6 @@
 </head>
 <body>
     <button id="btnScrollTop" onclick="scrollToTop()">⬆</button>
-
     <div id="captureArea"></div>
 
     <div id="imgModal">
@@ -140,9 +142,7 @@
             <button class="btn-modal-share" onclick="compartirNativo()">📤 Enviar a WhatsApp</button>
             <button class="btn-modal-close" onclick="cerrarModalImg()">Cerrar</button>
         </div>
-        <div style="color:#aaa; margin-top:15px; font-size:11px; text-align:center;">
-            (Si no funciona el botón, mantén presionado la imagen)
-        </div>
+        <div style="color:#aaa; margin-top:15px; font-size:11px; text-align:center;">(Si no funciona el botón, mantén presionado la imagen)</div>
     </div>
 
     <div id="viewCatalog">
@@ -152,7 +152,6 @@
                 <img src="Logo.png" alt="Logo 1" class="brand-logo" id="imgLogo1" onerror="this.style.display='none'">
                 <img src="logo_multicolor.png" alt="Logo 2" class="brand-logo" id="imgLogo2" onerror="this.style.display='none'">
             </div>
-            
             <div id="logoConfigPanel">
                 <p style="font-size:14px; font-weight:bold; margin-bottom:10px;">Configurar Logos</p>
                 <label class="file-custom-btn" style="background:#fff3e0; color:#e65100; border-color:#e65100; margin-bottom:8px;">
@@ -168,7 +167,6 @@
             <div class="header-content">
                 <h1>Catálogo Online</h1>
                 <span id="updateDate" class="update-badge"></span>
-                
                 <div class="search-container">
                     <input type="text" id="searchInput" class="search-input" placeholder="Buscar (Ej: parag hilux)..." oninput="checkInput()">
                     <button id="btnClear" class="btn-clear" onclick="limpiarBuscador()">✖</button>
@@ -253,7 +251,6 @@
                 </div>
                 <span id="txtTotalFinal" class="efectivo-monto">$0.00</span>
             </div>
-            
             <div class="action-grid">
                 <button class="btn-pdf" onclick="generarPDF()">📄 PDF</button>
                 <button class="btn-img" onclick="generarImagen()">📸 Imagen</button>
@@ -266,21 +263,15 @@
     <div id="toast">Mensaje</div>
     
     <nav class="nav">
-        <button class="nav-item active" onclick="cambiarVista('catalog')" id="navCat">
-            <span class="nav-icon">📦</span>Catálogo
-        </button>
-        <button class="nav-item" onclick="cambiarVista('budget')" id="navBud">
-            <span class="nav-icon">🛒</span>
-            <span id="cartBadge" class="nav-badge">0</span>
-            Pedido
-        </button>
+        <button class="nav-item active" onclick="cambiarVista('catalog')" id="navCat"><span class="nav-icon">📦</span>Catálogo</button>
+        <button class="nav-item" onclick="cambiarVista('budget')" id="navBud"><span class="nav-icon">🛒</span><span id="cartBadge" class="nav-badge">0</span>Pedido</button>
     </nav>
 
     <script>
         const CLAVE_AUTORIZACION = 'chpmc'; const MAX_DISC_SIN_CLAVE = 15;
         const ARCHIVO_LISTA_AUTOMATICA = 'Lista CHPMC.xlsx'; 
-        const LOCAL_STORAGE_KEY = 'datosAppV55';
-        const LOCAL_INVENTARIO_KEY = 'inventarioV55';
+        const LOCAL_STORAGE_KEY = 'datosAppV56';
+        const LOCAL_INVENTARIO_KEY = 'inventarioV56';
         const LOCAL_LOGO1_KEY = 'logo1_v44';
         const LOCAL_LOGO2_KEY = 'logo2_v44';
         
@@ -297,18 +288,11 @@
             const lblFile = document.getElementById('lblFile');
             const manualInput = document.getElementById('lblManualInput');
             lblFile.innerText = "⏳ Conectando..."; manualInput.style.display = 'none';
-
             fetch(ARCHIVO_LISTA_AUTOMATICA + '?v=' + new Date().getTime())
                 .then(response => { 
                     if (!response.ok) throw new Error("No encontrada"); 
-                    
-                    // 💡 V55: OBTENER FECHA DE MODIFICACIÓN DEL HEADER DE GITHUB/SERVIDOR
                     const lastMod = response.headers.get('Last-Modified');
-                    if (lastMod) {
-                        const dateObj = new Date(lastMod);
-                        mostrarFechaActualizacion(dateObj);
-                    }
-                    
+                    if (lastMod) mostrarFechaActualizacion(new Date(lastMod));
                     return response.arrayBuffer(); 
                 })
                 .then(data => {
@@ -318,21 +302,14 @@
                 })
                 .catch(error => {
                     console.log(error);
-                    lblFile.innerText = ""; 
-                    manualInput.style.display = 'block'; 
+                    lblFile.innerText = ""; manualInput.style.display = 'block'; 
                     document.getElementById('uploadSection').style.display = 'block';
                 });
         }
 
         document.getElementById('fileInput').addEventListener('change', function(e) {
             const file = e.target.files[0]; if (!file) return;
-            
-            // 💡 V55: OBTENER FECHA DE MODIFICACIÓN DEL ARCHIVO LOCAL
-            if (file.lastModified) {
-                const dateObj = new Date(file.lastModified);
-                mostrarFechaActualizacion(dateObj);
-            }
-
+            if (file.lastModified) mostrarFechaActualizacion(new Date(file.lastModified));
             document.getElementById('lblFile').innerText = "⏳ Leyendo...";
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -344,11 +321,9 @@
             reader.readAsArrayBuffer(file);
         });
 
-        // 💡 FUNCIÓN NUEVA: MOSTRAR FECHA FORMATEADA
         function mostrarFechaActualizacion(date) {
             const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            const fechaStr = date.toLocaleDateString('es-AR', opciones);
-            document.getElementById('updateDate').innerText = `📅 Act: ${fechaStr}`;
+            document.getElementById('updateDate').innerText = `📅 Act: ${date.toLocaleDateString('es-AR', opciones)}`;
         }
 
         function procesarDatos(rows, source) {
@@ -367,6 +342,7 @@
             resultadosBusqueda = inventario; paginaActual = 1; renderizarPagina();
         }
 
+        // Resto de funciones (toggleLogoPanel, borrarLogosLocales, cargarLogoLocal, recuperarLogos, aplicarLogos...)
         function toggleLogoPanel() { const p = document.getElementById('logoConfigPanel'); p.style.display = (p.style.display==='block') ? 'none' : 'block'; }
         function borrarLogosLocales() { localStorage.removeItem(LOCAL_LOGO1_KEY); localStorage.removeItem(LOCAL_LOGO2_KEY); alert("Logos borrados."); location.reload(); }
         function cargarLogoLocal(input, keyName) {
@@ -475,23 +451,18 @@
         function actualizarCarrito() {
             const div = document.getElementById('budgetList'); const foot = document.getElementById('budgetFooter');
             const discInput = document.getElementById('inputDescuento'); let disc = parseFloat(discInput.value)||0;
-            
             if (disc > MAX_DISC_SIN_CLAVE && !descuentoAutorizado) {
                 if (prompt("Clave:")?.toLowerCase() === CLAVE_AUTORIZACION) descuentoAutorizado=true;
                 else { disc=MAX_DISC_SIN_CLAVE; discInput.value=MAX_DISC_SIN_CLAVE; }
             }
             if(descuentoAutorizado) document.getElementById('efectivoBox').classList.add('authorized');
             else document.getElementById('efectivoBox').classList.remove('authorized');
-
             const chips = document.querySelectorAll('.chip-btn');
             chips.forEach(b => { if(parseInt(b.innerText)===disc) b.classList.add('active-chip'); else b.classList.remove('active-chip'); });
-
             const badge = document.getElementById('cartBadge');
-            badge.innerText = carrito.length;
-            badge.style.display = carrito.length > 0 ? 'block' : 'none';
+            badge.innerText = carrito.length; badge.style.display = carrito.length > 0 ? 'block' : 'none';
 
             if(carrito.length===0) { div.innerHTML="<div style='text-align:center; padding:50px; color:#999;'>Vacío</div>"; foot.style.display='none'; guardarDatosLocales(); return; }
-            
             foot.style.display='block'; div.innerHTML=""; let sub=0;
             carrito.forEach((p, i) => {
                 sub += p.precio * p.cant;
@@ -514,7 +485,6 @@
             if(d) { carrito=d.carrito||[]; document.getElementById('inputCliente').value=d.cliente||""; document.getElementById('inputDescuento').value=d.descuento||0; descuentoAutorizado=d.auth||false; actualizarCarrito(); }
             try { const inv = localStorage.getItem(LOCAL_INVENTARIO_KEY); if(inv) inventario = JSON.parse(inv); } catch(e){}
         }
-        
         function formatMoney(a) { return a.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function redondear500(v) { return Math.ceil(v/500)*500; }
         function mostrarToast(m) { const t=document.getElementById("toast"); t.innerText=m; t.className="show"; setTimeout(()=>t.className=t.className.replace("show",""), 1500); }
@@ -522,7 +492,6 @@
         function scrollToTop() { window.scrollTo({top:0, behavior:'smooth'}); }
         window.onscroll = () => document.getElementById("btnScrollTop").style.display = (document.body.scrollTop>300||document.documentElement.scrollTop>300)?"flex":"none";
         function animarTab() { const b = document.getElementById('navBud'); b.style.transform="scale(1.2)"; setTimeout(()=>b.style.transform="scale(1)", 200); }
-
         function enviarWhatsapp() {
             if(carrito.length===0) return;
             const c = document.getElementById('inputCliente').value.trim(); const d = parseFloat(document.getElementById('inputDescuento').value)||0;
@@ -532,126 +501,59 @@
             m+=`\n*Tarjeta:* $${formatMoney(sub)}\n*Efectivo:* $${formatMoney(tot)}`;
             window.open(`https://wa.me/?text=${encodeURIComponent(m)}`); borrarTodo();
         }
-
-        // --- PDF y CAPTURA DE IMAGEN ---
         function getBase64FromImageElement(id) {
             const img = document.getElementById(id); if(!img || !img.complete || img.naturalWidth===0) return null;
             try { const c = document.createElement("canvas"); c.width=img.width; c.height=img.height; const x=c.getContext("2d"); x.drawImage(img,0,0); return c.toDataURL("image/png"); } catch(e){return null;}
         }
-
         function generarPDF() {
             if(carrito.length===0) return alert("Pedido vacío");
             const { jsPDF } = window.jspdf; const doc = new jsPDF();
-            
             const l1 = getBase64FromImageElement('imgLogo1'); const l2 = getBase64FromImageElement('imgLogo2');
             if(l1) try { doc.addImage(l1, 'PNG', 14, 10, 40, 0); } catch(e){}
             if(l2) try { doc.addImage(l2, 'PNG', 155, 10, 40, 0); } catch(e){}
-
-            doc.setFontSize(8);
-            let yL = 35; 
+            doc.setFontSize(8); let yL = 35; 
             doc.text("Rivadavia 1299 - Rivadavia 1340 - Sgo", 14, yL); doc.text("Alem 603 - La Banda", 14, yL+4); doc.text("Tel: 3855135474 / 3856281309 / 3854739612", 14, yL+8);
             doc.text("Rivadavia 1270 - Sgo", 155, yL); doc.text("Bolivia (N) 158 - La Banda", 155, yL+4); doc.text("Tel: 3856258128 / 3854977332", 155, yL+8);
-
             const c = document.getElementById('inputCliente').value.trim()||"Cliente Final";
             doc.setFontSize(18); doc.setFont(undefined,'bold'); doc.text("PRESUPUESTO", 105, 55, null,null,"center");
             doc.setFontSize(12); doc.setFont(undefined,'normal'); doc.text("Fecha: "+new Date().toLocaleDateString('es-AR'), 14, 65); doc.text("Cliente: "+c, 14, 72);
-            
             const body = carrito.map(p=>[p.cant, p.cod, p.desc, "$"+formatMoney(p.precio), "$"+formatMoney(p.precio*p.cant)]);
             doc.autoTable({ startY: 80, head: [['Cant', 'Cód', 'Descripción', 'Unit', 'Total']], body: body, theme: 'striped', headStyles: { fillColor: [13, 71, 161] } });
-            
             let sub=0; carrito.forEach(p=>sub+=p.precio*p.cant);
             const d = parseFloat(document.getElementById('inputDescuento').value)||0; const tot = redondear500(sub*(1-d/100));
-            
             let y = doc.lastAutoTable.finalY + 10;
             doc.setFontSize(11); doc.text("Precio Lista / Tarjeta: $"+formatMoney(sub), 195, y, null,null,"right");
             y+=10; doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.text("Efectivo/Transf: $"+formatMoney(tot), 195, y, null,null,"right");
             y+=20; doc.setFontSize(10); doc.setFont(undefined,'italic'); doc.text("Condiciones:", 14, y); doc.text("- Entrega en 24hs", 14, y+6); doc.text("- Presupuesto válido por 7 días", 14, y+12);
-            
             doc.save(`Presupuesto_${c.replace(/\s+/g,'_')}.pdf`);
         }
-
         function generarImagen() {
             if(carrito.length === 0) return alert("Pedido vacío");
             const captureDiv = document.getElementById('captureArea');
             const cliente = document.getElementById('inputCliente').value.trim() || "Consumidor Final";
             const fecha = new Date().toLocaleDateString('es-AR');
-            const l1 = getBase64FromImageElement('imgLogo1');
-            const l2 = getBase64FromImageElement('imgLogo2');
-
-            let html = `
-                <div class="cap-header">
-                    <div>${l1 ? `<img src="${l1}" style="height:60px;">` : ''}</div>
-                    <div style="text-align:right;">${l2 ? `<img src="${l2}" style="height:60px;">` : ''}</div>
-                </div>
-                <h2 style="text-align:center; margin:0 0 10px 0; color:#0D47A1;">PRESUPUESTO</h2>
-                <div style="font-size:12px; margin-bottom:15px; color:#555;">
-                    <strong>Fecha:</strong> ${fecha}<br>
-                    <strong>Cliente:</strong> ${cliente}
-                </div>
-                <table class="cap-table">
-                    <thead><tr><th>Cant</th><th>Detalle</th><th style="text-align:right;">Total</th></tr></thead>
-                    <tbody>`;
-            
-            let subtotal = 0;
-            carrito.forEach(p => {
-                subtotal += p.precio * p.cant;
-                html += `<tr>
-                    <td>${p.cant}</td>
-                    <td><div style="font-weight:bold;">${p.desc}</div><div style="font-size:10px; color:#666;">Cód: ${p.cod}</div></td>
-                    <td style="text-align:right;">$${formatMoney(p.precio * p.cant)}</td>
-                </tr>`;
-            });
-            
-            const desc = parseFloat(document.getElementById('inputDescuento').value) || 0;
-            const total = redondear500(subtotal * (1 - desc/100));
-
-            html += `</tbody></table>
-                <div class="cap-total">
-                    <div style="font-size:12px;">Lista/Tarjeta: $${formatMoney(subtotal)}</div>
-                    <div style="font-size:20px; font-weight:bold; color:#D32F2F; margin-top:5px;">Efectivo: $${formatMoney(total)}</div>
-                </div>
-                <div style="margin-top:20px; font-size:10px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:10px;">
-                    Chapamovil: Rivadavia 1299 - Alem 603 (LB)<br>
-                    Multicolor: Rivadavia 1270 - Bolivia (N) 158 (LB)
-                </div>`;
-            
+            const l1 = getBase64FromImageElement('imgLogo1'); const l2 = getBase64FromImageElement('imgLogo2');
+            let html = `<div class="cap-header"><div>${l1 ? `<img src="${l1}" style="height:60px;">` : ''}</div><div style="text-align:right;">${l2 ? `<img src="${l2}" style="height:60px;">` : ''}</div></div><h2 style="text-align:center; margin:0 0 10px 0; color:#0D47A1;">PRESUPUESTO</h2><div style="font-size:12px; margin-bottom:15px; color:#555;"><strong>Fecha:</strong> ${fecha}<br><strong>Cliente:</strong> ${cliente}</div><table class="cap-table"><thead><tr><th>Cant</th><th>Detalle</th><th style="text-align:right;">Total</th></tr></thead><tbody>`;
+            let subtotal = 0; carrito.forEach(p => { subtotal += p.precio * p.cant; html += `<tr><td>${p.cant}</td><td><div style="font-weight:bold;">${p.desc}</div><div style="font-size:10px; color:#666;">Cód: ${p.cod}</div></td><td style="text-align:right;">$${formatMoney(p.precio * p.cant)}</td></tr>`; });
+            const desc = parseFloat(document.getElementById('inputDescuento').value) || 0; const total = redondear500(subtotal * (1 - desc/100));
+            html += `</tbody></table><div class="cap-total"><div style="font-size:12px;">Lista/Tarjeta: $${formatMoney(subtotal)}</div><div style="font-size:20px; font-weight:bold; color:#D32F2F; margin-top:5px;">Efectivo: $${formatMoney(total)}</div></div><div style="margin-top:20px; font-size:10px; color:#777; text-align:center; border-top:1px solid #eee; padding-top:10px;">Chapamovil: Rivadavia 1299 - Alem 603 (LB)<br>Multicolor: Rivadavia 1270 - Bolivia (N) 158 (LB)</div>`;
             captureDiv.innerHTML = html;
-
             html2canvas(captureDiv, { scale: 2 }).then(canvas => {
                 const imgData = canvas.toDataURL("image/jpeg", 0.9);
                 document.getElementById('imgPreview').src = imgData;
                 document.getElementById('imgModal').style.display = 'flex';
             });
         }
-
         async function compartirNativo() {
             const imgElement = document.getElementById('imgPreview');
             const base64URL = imgElement.src;
-
-            // 1. Convertir Base64 a Archivo (Blob)
-            const res = await fetch(base64URL);
-            const blob = await res.blob();
+            const res = await fetch(base64URL); const blob = await res.blob();
             const file = new File([blob], "presupuesto.jpg", { type: "image/jpeg" });
-
-            // 2. Usar Web Share API
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                try {
-                    await navigator.share({
-                        files: [file],
-                        title: 'Presupuesto',
-                        text: '' // Texto vacío para evitar links
-                    });
-                } catch (err) {
-                    console.log("Cancelado o Error al compartir", err);
-                }
-            } else {
-                alert("Tu navegador no soporta envío directo de imagen. Por favor, mantén presionada la foto y selecciona 'Copiar' o 'Compartir imagen'.");
-            }
+                try { await navigator.share({ files: [file], title: 'Presupuesto', text: '' }); } catch (err) { console.log("Cancelado", err); }
+            } else { alert("Tu navegador no soporta envío directo. Copia la imagen."); }
         }
-
-        function cerrarModalImg() {
-            document.getElementById('imgModal').style.display = 'none';
-        }
+        function cerrarModalImg() { document.getElementById('imgModal').style.display = 'none'; }
     </script>
 </body>
 </html>
