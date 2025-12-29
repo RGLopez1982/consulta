@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catálogo CHPMC V61</title>
+    <title>Catálogo CHPMC V62</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
@@ -31,7 +31,6 @@
 
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; padding-bottom: 120px; background-color: var(--bg-light); color: var(--text-dark); scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
         
-        /* UI: HEADER & LOGOS */
         header { background-color: var(--primary-blue); color: var(--white); padding: 0 0 15px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
         .logos-bar { background-color: var(--white); padding: 20px; display: flex; justify-content: center; align-items: center; gap: 20px; border-bottom: 4px solid var(--accent-red); margin-bottom: 10px; position: relative; }
         .brand-logo { height: 90px; width: auto; max-width: 45vw; object-fit: contain; display: block; }
@@ -41,13 +40,11 @@
         h1 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: 0.5px; }
         .update-badge { font-size: 11px; color: rgba(255,255,255,0.8); margin-bottom: 8px; display: block; font-weight: 500; }
 
-        /* UI: BUSCADOR */
         .search-container { display: flex; background: var(--white); border-radius: 8px; padding: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); align-items: center; }
         .search-input { border: none; flex-grow: 1; padding: 10px; font-size: 16px; outline: none; border-radius: 8px; color: #333; }
         .search-btn { background: var(--white); border: 1px solid #cfd8dc; border-radius: 6px; padding: 0 10px; font-size: 18px; cursor: pointer; color: var(--accent-red); height: 40px; display: flex; align-items: center; justify-content: center; }
         .btn-clear { background: none; border: none; font-size: 18px; color: #aaa; padding: 0 10px; cursor: pointer; display: none; height: 40px; line-height: 40px; }
         
-        /* UI: SECCIONES Y CARDS */
         .upload-section { background: var(--white); padding: 5px 15px; text-align: center; border-bottom: 1px solid #e0e0e0; min-height: 20px; display: block; }
         .file-custom-btn { background-color: #E3F2FD; border: 2px dashed var(--primary-blue); color: var(--primary-blue); padding: 12px; border-radius: 8px; cursor: pointer; display: block; font-weight: bold; width: 100%; box-sizing: border-box; font-size: 14px; margin-bottom: 5px; }
         .results-info { padding: 10px 15px; font-size: 13px; color: #555; font-weight: 600; display: flex; justify-content: space-between; align-items: center; background: #e8eaf6; border-bottom: 1px solid #d0d0d0; }
@@ -69,7 +66,6 @@
         .qty-btn-mini { padding: 8px; width: 38px; height: 38px; background: #E3F2FD; color: var(--primary-blue); }
         .btn-add { background-color: var(--primary-blue); color: var(--white); border: none; padding: 10px 22px; border-radius: 30px; font-weight: bold; cursor: pointer; font-size: 13px; letter-spacing: 0.5px; box-shadow: 0 2px 5px rgba(13, 71, 161, 0.3); }
         
-        /* UI: FOOTER & NAVIGATION */
         .footer { background: var(--white); padding: 15px 15px; border-top: 1px solid #e0e0e0; margin-top: 10px; border-radius: 20px 20px 0 0; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
         .total-tarjeta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 14px; color: #546e7a; font-weight: 500; }
         .total-efectivo-box { background: #E3F2FD; padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px solid #BBDEFB; transition: all 0.2s ease-in-out; }
@@ -85,6 +81,7 @@
         .btn-pdf { background: var(--accent-red); color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(211, 47, 47, 0.3); }
         .btn-img { background: #FF9800; color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(255, 152, 0, 0.3); }
         .btn-whatsapp { background: var(--whatsapp-green); color: var(--white); padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; box-shadow: 0 4px 6px rgba(37, 211, 102, 0.3); }
+        
         .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 20px 0; }
         .page-btn { background: var(--white); border: 1px solid #cfd8dc; padding: 8px 16px; border-radius: 6px; font-weight: bold; color: var(--primary-blue); cursor: pointer; }
         .page-btn:disabled { background: #f5f5f5; color: #b0bec5; cursor: not-allowed; border-color: #eee; }
@@ -99,7 +96,6 @@
         .nav-badge { position: absolute; top: 5px; right: calc(50% - 15px); background-color: var(--accent-red); color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold; min-width: 14px; text-align: center; display: none; z-index: 10; }
         .btn-del { width: 32px; height: 32px; background: #ffebee; color: var(--accent-red); border: none; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
-        /* UI: MODALES */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 4000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 85%; max-width: 320px; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2); animation: popIn 0.2s ease; }
         .modal-title { font-size: 18px; font-weight: bold; color: var(--primary-blue); margin-bottom: 10px; }
@@ -267,17 +263,16 @@
 
     <script>
         /* =========================================
-           1. STATE & CONFIG (Datos)
+           1. STATE & CONFIG
            ========================================= */
         const Config = {
-            // 💡 Clave ofuscada (m-h-c-m-p -> chpmc al revés o rotado)
             getSecurityToken: function() { 
                 const part1 = "pm"; const part2 = "hc"; const part3 = "c";
                 return (part3 + part2 + part1).split('').reverse().join(''); 
             },
             maxDescuentoSinClave: 15,
             archivoLista: 'Lista CHPMC.xlsx',
-            keys: { storage: 'datosAppV61', inventario: 'inventarioV61', logo1: 'logo1_v44', logo2: 'logo2_v44' },
+            keys: { storage: 'datosAppV62', inventario: 'inventarioV62', logo1: 'logo1_v44', logo2: 'logo2_v44' },
             itemsPorPagina: 20,
             fallbackDiscount: 0.85,
             empresa: {
@@ -421,24 +416,48 @@
             document.getElementById('btnPrev').disabled = (App.paginaActual === 1); document.getElementById('btnNext').disabled = (App.paginaActual === pags);
         }
 
-        /* Resto de utilidades (Carga, Logos, PDF, Imagen, Nav) */
+        /* 💡 MEJORADO: CARGA NUBE MÁS RESISTENTE */
         function intentarCargaNube() {
             const lblFile = document.getElementById('lblFile'); const manualInput = document.getElementById('lblManualInput');
             lblFile.innerText = "⏳ Conectando..."; manualInput.style.display = 'none';
+            
             fetch(Config.archivoLista + '?v=' + new Date().getTime())
-                .then(response => { if (!response.ok) throw new Error(); 
-                    const lm = response.headers.get('Last-Modified'); if(lm) mostrarFechaActualizacion(new Date(lm));
+                .then(response => {
+                    if (!response.ok) throw new Error(); 
+                    const lm = response.headers.get('Last-Modified'); 
+                    if(lm) mostrarFechaActualizacion(new Date(lm));
                     return response.arrayBuffer(); 
                 })
-                .then(data => procesarDatos(XLSX.utils.sheet_to_json(XLSX.read(new Uint8Array(data), {type:'array'}).Sheets[XLSX.read(new Uint8Array(data), {type:'array'}).SheetNames[0]], {header:1})))
-                .catch(() => { lblFile.innerText = ""; manualInput.style.display = 'block'; document.getElementById('uploadSection').style.display = 'block'; });
+                .then(buffer => {
+                    const workbook = XLSX.read(new Uint8Array(buffer), {type:'array'});
+                    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const rows = XLSX.utils.sheet_to_json(sheet, {header:1});
+                    procesarDatos(rows);
+                })
+                .catch(() => { 
+                    lblFile.innerText = "❌ Falló carga automática"; 
+                    manualInput.style.display = 'block'; 
+                    document.getElementById('uploadSection').style.display = 'block'; 
+                });
         }
 
         function procesarDatos(rows) {
-            App.inventario = rows.slice(1).filter(r => r[1]).map(r => ({ cod: r[0]||"---", desc: r[1], precio: parseFloat(r[4])||0, precioCash: parseFloat(r[5])||0 }));
+            if(!rows || rows.length < 2) return;
+            App.inventario = rows.slice(1)
+                .filter(r => r && r[1]) // Asegura que la fila exista y tenga nombre
+                .map(r => ({ 
+                    cod: r[0] || "---", 
+                    desc: String(r[1]).toUpperCase(), 
+                    precio: parseFloat(r[4]) || 0, 
+                    precioCash: parseFloat(r[5]) || 0 
+                }));
+            
             localStorage.setItem(Config.keys.inventario, JSON.stringify(App.inventario));
             document.getElementById('uploadSection').style.display = 'none';
-            App.resultadosBusqueda = App.inventario; App.paginaActual = 1; renderizarPagina();
+            App.resultadosBusqueda = App.inventario; 
+            App.paginaActual = 1; 
+            renderizarPagina();
+            mostrarToast("✅ Lista cargada");
         }
 
         function iniciarBusqueda() {
@@ -501,7 +520,6 @@
             UI.abrirConfirmacion("📦 Pedido enviado", "¿Desea vaciar el carrito ahora?", () => { borrarTodo(); });
         }
 
-        /* Helpers Finales */
         function formatMoney(a) { return a.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function mostrarToast(m) { const t=document.getElementById("toast"); t.innerText=m; t.className="show"; setTimeout(()=>t.className="", 1500); }
         function cambiarVista(v) { document.getElementById('viewCatalog').style.display=v==='catalog'?'block':'none'; document.getElementById('viewBudget').style.display=v==='budget'?'block':'none'; document.getElementById('navCat').className=v==='catalog'?'nav-item active':'nav-item'; document.getElementById('navBud').className=v==='budget'?'nav-item active':'nav-item'; window.scrollTo(0,0); }
