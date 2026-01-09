@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Catálogo CHPMC V60</title>
+    <title>Catálogo CHPMC V60 Corregido</title>
 
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="icon.png">
@@ -302,7 +302,6 @@
                 return p.precioCash > 0 ? p.precioCash : p.precio * Config.fallbackDiscount;
             },
 
-            // 💡 Función de redondeo centralizada
             redondear500: function(v) { 
                 return Math.ceil(v / 500) * 500; 
             },
@@ -553,10 +552,10 @@
             UI.abrirConfirmacion("🗑️ Vaciar pedido", "¿Desea borrar todos los productos del pedido?", () => {
                 App.carrito = []; 
                 document.getElementById('inputCliente').value = ""; 
-                // 💡 Reset de seguridad de la autorización
                 App.descuentoAutorizado = false;
                 actualizarCarrito(); 
                 mostrarToast("🗑️ Vaciado y desautorizado");
+                UI.cerrarModal(); // 🔥 Se cierra el modal tras confirmar
             });
         }
 
@@ -616,7 +615,16 @@
             App.carrito.forEach(p => m+=`▪ ${p.cant} x *[${p.cod}]* ${p.desc}\n`);
             m+=`\n*Tarjeta:* $${formatMoney(sub)}\n*Efectivo:* $${formatMoney(tot)}`;
             window.open(`https://wa.me/?text=${encodeURIComponent(m)}`);
-            UI.abrirConfirmacion("📦 Pedido enviado", "¿Desea vaciar el carrito ahora?", () => { borrarTodo(); });
+            
+            // 🔥 Se cierra el modal después de que el usuario confirma el vaciado
+            UI.abrirConfirmacion("📦 Pedido enviado", "¿Desea vaciar el carrito ahora?", () => { 
+                App.carrito = []; 
+                document.getElementById('inputCliente').value = ""; 
+                App.descuentoAutorizado = false;
+                actualizarCarrito(); 
+                mostrarToast("🗑️ Vaciado y desautorizado");
+                UI.cerrarModal(); 
+            });
         }
 
         function getBase64FromImageElement(id) {
